@@ -2,12 +2,15 @@ package org.example.employees.controllers;
 
 import org.example.employees.models.Employee;
 import org.example.employees.services.EmployeeService;
+import org.springframework.boot.Banner;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 
@@ -18,19 +21,19 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployees());
+    public String getAllEmployees(Model model) {
+        List<Employee> employees = employeeService.getAllEmployees();
+        model.addAttribute("employees", employees);
+        return "index";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        return ResponseEntity.ok(employeeService.addEmployee(employee));
+    public String getEmployeeById(@PathVariable Long id, Model model) {
+        Employee employee = employeeService.getEmployeeById(id).orElse(null);
+        if (employee != null) {
+            return "employee/not-found";
+        }
+        model.addAttribute("employee", employee);
+        return "employee/detail";
     }
 }

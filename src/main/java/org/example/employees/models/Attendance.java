@@ -17,7 +17,7 @@ public class Attendance extends BaseEntity {
     private int workedHours = 0;
 
     @Column(name = "is_present", nullable = false)
-    private boolean isPresent = false;
+    private boolean isPresent = true;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")

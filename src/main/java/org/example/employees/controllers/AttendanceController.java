@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -28,10 +29,12 @@ public class AttendanceController {
     @GetMapping
     public String getAllAttendances(Model model) {
         List<Attendance> attendances = attendanceService.getAllAttendances();
+        List<Employee> employees = employeeService.getAllEmployees();
 
         model.addAttribute("pageTitle", "Home");
         model.addAttribute("contentFragment", "home");
         model.addAttribute("attendances", attendances);
+        model.addAttribute("employees", employees);
 
         return "layout";
     }
@@ -54,14 +57,24 @@ public class AttendanceController {
         return "form";
     }
 
-    @PostMapping("/submitForm")
-    public String submitForm(@ModelAttribute Employee employee, @ModelAttribute Attendance attendance) {
-
-        attendance.setEmployee(employee);
-        employee.getAttendanceRecords().add(attendance);
-
+    @PostMapping("/addEmployee")
+    public String addEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee);
 
-        return "result";
+        return "redirect:/";
+    }
+
+    @PostMapping("/addAttendance")
+    public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance) {
+        Optional<Employee> employee = employeeService.getEmployeeById(employeeId);
+
+        if (employee.isEmpty()) {
+            return "redirect:/";
+        }
+
+        attendance.setEmployee(employee.get());
+        attendanceService.save(attendance);
+
+        return "redirect:/";
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 public interface AttendanceService {
     List<Attendance> getAllAttendances();
     Attendance getAttendanceById(Long id);
+    void save(Attendance attendance);
 }

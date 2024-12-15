@@ -27,4 +27,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public void save(Attendance attendance) {
+        attendanceRepository.save(attendance);
+    }
+
 }

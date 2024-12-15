@@ -2,7 +2,7 @@
 <div th:fragment="content">
     <h1>Employee Attendance System</h1>
 
-    <h2>Add new employee</h2>
+    <h4>Add new employee</h4>
     <form th:action="@{/addEmployee}" method="post">
         <label for="firstName">First Name</label>
         <input type="text" name="firstName" id="firstName">
@@ -10,6 +10,19 @@
         <input type="text" name="lastName" id="lastName">
         <label for="position">Position</label>
         <input type="text" name="position" id="position">
+        <button type="submit">Add</button>
+    </form>
+
+    <h4>Add attendance</h4>
+    <form th:action="@{/addAttendance}" method="post">
+        <select name="employeeId">
+            <option value="">Select employee</option>
+            <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.firstName}"></option>
+        </select>
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date">
+        <label for="hours">Hours</label>
+        <input type="number" name="workedHours" id="hours">
         <button type="submit">Add</button>
     </form>
 

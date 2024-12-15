@@ -40,4 +40,22 @@ public class AttendanceController {
         model.addAttribute("attendance", attendance);
         return "attendance-detail";
     }
+
+    @GetMapping("/form")
+    public String showForm(Model model) {
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("attendance", new Attendance());
+        return "form";
+    }
+
+    @PostMapping("/submitForm")
+    public String submitForm(@ModelAttribute Employee employee, @ModelAttribute Attendance attendance) {
+
+        attendance.setEmployee(employee);
+        employee.getAttendanceRecords().add(attendance);
+
+        employeeService.save(employee);
+
+        return "result";
+    }
 }

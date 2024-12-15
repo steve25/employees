@@ -2,8 +2,6 @@ package org.example.employees.controllers;
 
 import org.example.employees.models.Employee;
 import org.example.employees.services.EmployeeService;
-import org.springframework.boot.Banner;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -30,7 +28,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public String getEmployeeById(@PathVariable Long id, Model model) {
         Employee employee = employeeService.getEmployeeById(id).orElse(null);
-        if (employee != null) {
+        if (employee == null) {
             return "employee/not-found";
         }
         model.addAttribute("employee", employee);

@@ -1,6 +1,7 @@
 package org.example.employees.services;
 
 import org.example.employees.models.Employee;
+import org.example.employees.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

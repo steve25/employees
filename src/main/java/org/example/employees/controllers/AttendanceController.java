@@ -1,6 +1,7 @@
 package org.example.employees.controllers;
 
 import org.example.employees.models.Attendance;
+import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
 import org.example.employees.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;

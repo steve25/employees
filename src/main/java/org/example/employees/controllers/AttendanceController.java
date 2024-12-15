@@ -1,0 +1,43 @@
+package org.example.employees.controllers;
+
+import org.example.employees.models.Attendance;
+import org.example.employees.models.Employee;
+import org.example.employees.services.AttendanceService;
+import org.example.employees.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/")
+public class AttendanceController {
+
+    private final EmployeeService employeeService;
+    private final AttendanceService attendanceService;
+
+    @Autowired
+    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService) {
+        this.employeeService = employeeService;
+        this.attendanceService = attendanceService;
+    }
+
+    @GetMapping
+    public String getAllAttendances(Model model) {
+        List<Attendance> attendances = attendanceService.getAllAttendances();
+        model.addAttribute("attendances", attendances);
+        return "index";
+    }
+
+    @GetMapping("/{id}")
+    public String getAttendanceById(@PathVariable Long id, Model model) {
+        Attendance attendance = attendanceService.getAttendanceById(id);
+        if (attendance == null) {
+            return "not-found";
+        }
+        model.addAttribute("attendance", attendance);
+        return "attendance-detail";
+    }
+}

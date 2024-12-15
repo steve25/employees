@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Employee Attendance System</title>
@@ -9,8 +9,10 @@
 <main>
   <h1>Employee Attendance System</h1>
   <ul>
-    <li></li>
+    <li th:each="attendance : ${attendances}" th:text="${attendance.date}"></li>
   </ul>
+  
+  
 </main>
 
 </body>

@@ -1,18 +1,27 @@
 package org.example.employees.models;
 
-import java.util.ArrayList;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Entity
+@Table(name = "employees")
+@Getter @Setter
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first_name", nullable = false, length = 60)
     private String firstName;
+
+    @Column(name = "last_name", nullable = false, length = 60)
     private String lastName;
+
+    @Column(name = "position", nullable = false, length = 100)
     private String position;
 
-    private List<Attenadace> attenadaceRecords = new ArrayList<>(); //OnewToMany
-
-    public Employee() {
-    }
 
     public Employee(Long id, String firstName, String lastName, String position) {
         this.id = id;
@@ -21,43 +30,6 @@ public class Employee {
         this.position = position;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public List<Attendance> getAttenadaceRecords() {
-        return attenadaceRecords;
-    }
-
-    public void setAttenadaceRecords(List<Attenadace> attenadaceRecords) {
-        this.attenadaceRecords = attenadaceRecords;
-    }
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attendance> attendanceRecords = new ArrayList<>();
 }

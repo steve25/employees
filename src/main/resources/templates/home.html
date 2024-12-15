@@ -1,0 +1,36 @@
+
+<div th:fragment="content">
+    <h1>Employee Attendance System</h1>
+
+    <h2>Add new employee</h2>
+    <form th:action="@{/addEmployee}" method="post">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" id="firstName">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName">
+        <label for="position">Position</label>
+        <input type="text" name="position" id="position">
+        <button type="submit">Add</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Employee</th>
+            <th>Worked Hours</th>
+            <th>Present</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attendance : ${attendances}" th:object="${attendance}">
+            <td th:text="${{attendance.date}}"></td>
+            <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>
+            <td th:text="*{workedHours}"></td>
+            <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
+            <td><a th:href="*{id}">Details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

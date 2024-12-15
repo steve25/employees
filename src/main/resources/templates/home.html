@@ -1,0 +1,24 @@
+
+<div th:fragment="content">
+    <h1>Employee Attendance System</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Worked Hours</th>
+            <th>Present</th>
+            <th>Employee ID</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attendance : ${attendances}" th:object="${attendance}">
+            <td th:text="${#dates.format(attendance.date, 'dd/MMM/yyyy')}"></td>
+            <td th:text="*{workedHours}"></td>
+            <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
+            <td th:text="*{employee.id}"></td>
+            <td><a th:href="*{id}">Details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

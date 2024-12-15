@@ -21,5 +21,5 @@ public class Attendance extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    private Empleyee employee;
+    private Employee employee;
 }

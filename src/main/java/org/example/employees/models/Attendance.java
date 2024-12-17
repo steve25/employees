@@ -19,14 +19,6 @@ public class Attendance extends BaseEntity {
     @Column(name = "is_present", nullable = false)
     private boolean present = true;
 
-    public boolean isPresent() {
-        return this.present;
-    }
-
-    public void setPresent(boolean present) {
-        this.present = present;
-    }
-
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Attendance</title>
+</head>
+<body>
+<h1>Edit Attendance</h1>
+<form th:action="@{/attendance/update}" method="post" th:object="${attendance}">
+
+
+  <input type="hidden" th:field="*{id}" />
+
+  <label for="employee">Employee:</label>
+  <select id="employee" name="employeeId">
+    <option th:each="employee : ${employees}" th:value="${employee.id}"
+            th:text="${employee.firstName} + ' ' + ${employee.lastName}"
+            th:attr="selected=${employee.id == attendance.employee.id}"></option>
+  </select><br />
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" th:field="*{date}" /><br />
+
+  <label for="workedHours">Worked Hours:</label>
+  <input type="number" id="workedHours" th:field="*{workedHours}" /><br />
+
+  <label for="isPresent">Present:</label>
+  <input type="checkbox" id="isPresent" th:field="*{present}" /><br />
+
+  <button type="submit">Update</button>
+</form>
+</body>
+</html>

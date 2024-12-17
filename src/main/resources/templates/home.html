@@ -34,6 +34,7 @@
             <th>Worked Hours</th>
             <th>Present</th>
             <th>Actions</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -43,6 +44,13 @@
             <td th:text="*{workedHours}"></td>
             <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
             <td><a th:href="*{id}">Details</a></td>
+            <td>
+                <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a> |
+                <form th:action="@{/attendance/delete}" method="post" style="display: inline;">
+                    <input type="hidden" name="id" th:value="${attendance.id}" />
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

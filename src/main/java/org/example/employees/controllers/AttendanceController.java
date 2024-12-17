@@ -43,9 +43,13 @@ public class AttendanceController {
     public String getAttendanceById(@PathVariable Long id, Model model) {
         Optional<Attendance> attendance = attendanceService.getAttendanceById(id);
 
+        if (attendance.isEmpty()) {
+            return "redirect:/";
+        }
+
         model.addAttribute("pageTitle", "Details");
         model.addAttribute("contentFragment", "attendance-detail");
-        model.addAttribute("attendance", attendance);
+        model.addAttribute("attendance", attendance.get());
 
         return "layout";
     }

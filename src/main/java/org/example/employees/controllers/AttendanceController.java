@@ -41,7 +41,7 @@ public class AttendanceController {
 
     @GetMapping("/{id}")
     public String getAttendanceById(@PathVariable Long id, Model model) {
-        Attendance attendance = attendanceService.getAttendanceById(id);
+        Optional<Attendance> attendance = attendanceService.getAttendanceById(id);
 
         model.addAttribute("pageTitle", "Details");
         model.addAttribute("contentFragment", "attendance-detail");
@@ -75,6 +75,48 @@ public class AttendanceController {
         attendance.setEmployee(employee.get());
         attendanceService.save(attendance);
 
+        return "redirect:/";
+    }
+
+    @GetMapping("/attendance/edit")
+    public String showUpdateForm(@RequestParam Long id, Model model) {
+        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceById(id);
+        if (attendanceOptional.isEmpty()) {
+            return "redirect:/";
+        }
+        model.addAttribute("attendance", attendanceOptional.get());
+        model.addAttribute("employees", employeeService.getAllEmployees());
+        return "attendance-edit";
+    }
+
+    @PostMapping("/attendance/update")
+    public String updateAttendance(@ModelAttribute Attendance attendance, @RequestParam Long employeeId) {
+        System.out.println("Updating Attendance ID: " + attendance.getId());
+
+        Optional<Attendance> existingAttendance = attendanceService.getAttendanceById(attendance.getId());
+        if (existingAttendance.isEmpty()) {
+            return "redirect:/";
+        }
+
+        Optional<Employee> employeeOptional = employeeService.getEmployeeById(employeeId);
+        if (employeeOptional.isEmpty()) {
+            return "redirect:/";
+        }
+
+        Attendance updatedAttendance = existingAttendance.get();
+        updatedAttendance.setDate(attendance.getDate());
+        updatedAttendance.setWorkedHours(attendance.getWorkedHours());
+        updatedAttendance.setPresent(attendance.isPresent());
+        updatedAttendance.setEmployee(employeeOptional.get());
+
+        attendanceService.save(updatedAttendance);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/attendance/delete")
+    public String deleteAttendance(@RequestParam Long id) {
+        attendanceService.deleteAttendance(id);
         return "redirect:/";
     }
 }

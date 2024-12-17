@@ -31,5 +31,4 @@ public class Employee extends BaseEntity {
         this.lastName = lastName;
         this.position = position;
     }
-
 }

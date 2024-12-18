@@ -2,6 +2,7 @@ package org.example.employees.controllers;
 
 import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
+import org.example.employees.repositories.AttendanceRepository;
 import org.example.employees.services.AttendanceService;
 import org.example.employees.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ public class AttendanceController {
 
     private final EmployeeService employeeService;
     private final AttendanceService attendanceService;
+    private final AttendanceRepository attendanceRepository;
 
     @Autowired
-    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService) {
+    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService, AttendanceRepository attendanceRepository) {
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @GetMapping
@@ -122,5 +125,11 @@ public class AttendanceController {
     public String deleteAttendance(@RequestParam Long id) {
         attendanceService.deleteAttendance(id);
         return "redirect:/";
+    }
+    @GetMapping("/increase/{id}")
+        public String increaseWorkedHours(@PathVariable("id") Long id) {
+        attendanceService.increaseWorkedHours(id);
+        return "redirect:/";
+
     }
 }

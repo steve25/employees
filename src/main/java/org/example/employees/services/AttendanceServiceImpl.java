@@ -12,10 +12,12 @@ import java.util.Optional;
 public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
+//    private final AttendanceService attendanceService;
 
     @Autowired
     public AttendanceServiceImpl(AttendanceRepository attendanceRepository) {
         this.attendanceRepository = attendanceRepository;
+
     }
 
     @Override
@@ -39,4 +41,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
     }
 
+    @Override
+    public void increaseWorkedHours(Long id) {
+        attendanceRepository.findById(id).ifPresent(attendance -> {
+            attendance.setWorkedHours((attendance.getWorkedHours() + 1));
+            attendanceRepository.save(attendance);
+        });
+    }
 }

@@ -10,4 +10,5 @@ public interface AttendanceService {
     Optional<Attendance> getAttendanceById(Long id);
     void save(Attendance attendance);
     void deleteAttendance(Long id);
+    void increaseWorkedHours(Long id);
 }

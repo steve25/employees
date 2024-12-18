@@ -1,0 +1,391 @@
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f0ff;
+    color: #333;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Header Styles */
+header {
+    background-color: #6c5291;
+    color: white;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Navigation Styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+nav ul li a:hover {
+    background-color: #8b6fae;
+    transform: scale(1.1);
+}
+
+nav .login,
+nav .register {
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+nav .login {
+    background-color: white;
+    color: #6c5291;
+    border: 2px solid white;
+}
+
+nav .register {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+nav .login:hover {
+    background-color: transparent;
+    color: white;
+}
+
+/* Main Content Styles */
+main {
+    margin: auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+main h1 {
+    text-align: center;
+    color: #4e3a70;
+    font-size: 2rem;
+}
+
+/* Button Styles */
+.toggle-btn {
+    background-color: #4e3a70;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: block;
+    margin: 20px auto;
+}
+
+.toggle-btn:hover {
+    background-color: #6c5291;
+}
+
+/* Attendance Container Styles */
+.add-attendance-container {
+    max-width: 400px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 1;
+    display: none;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    background-color: white;
+    border-radius: 10px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-attendance-container.active {
+    max-height: 300px;
+    opacity: 1;
+}
+
+/* Form Styles */
+.add-attendance-container form {
+    margin: 20px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.input-inner-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    height: 20px;
+    line-height: 20px;
+}
+
+input[type='checkbox'] {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 2px solid #4e3a70;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    transition: background-color 0.2s;
+    margin-top: 0;  /* Reset any margin that might push it down */
+
+}
+
+input[type='checkbox']:checked {
+    background-color: #a684ce;
+}
+
+input,
+select,
+button {
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+input,
+select {
+    margin-bottom: 10px;
+    width: calc(100% - 30px);
+    box-sizing: content-box;
+}
+
+.form-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.add-attendance-container button {
+    background-color: #4e3a70;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-attendance-container button:hover {
+    background-color: #6c5291;
+}
+
+.info {
+    text-align: center;
+    background-color: rgba(255, 252, 201, 0.51);
+    padding: 25px 20px;
+    border: 3px solid burlywood;
+    border-radius: 7px;
+    font-size: 20px;
+    color: #c99817;
+    font-weight: bold;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table th,
+table td {
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #6c5291;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #e7ddfa;
+}
+
+/* Table Button Styles */
+.table-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.table-buttons a,
+.table-buttons button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #4e3a70;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+}
+
+.table-buttons a:hover,
+.table-buttons button:hover {
+    background-color: #6c5291;
+}
+
+/* Details Syles */
+.attendance-info {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons-container a,
+.buttons-container button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #4e3a70;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    border: none;
+}
+
+.buttons-container a:hover,
+.buttons-container button:hover {
+    background-color: #6c5291;
+}
+
+.attendance-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-item:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+    color: #4e3a70;
+}
+
+.value {
+    color: #333;
+    font-weight: normal;
+}
+
+/* Edit page Styles */
+
+.edit-page-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.edit-page-container .buttons-container {
+    gap: 25px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-actions {
+    margin-top: 20px;
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: #6c5291;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}

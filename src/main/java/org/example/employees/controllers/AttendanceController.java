@@ -88,9 +88,12 @@ public class AttendanceController {
         if (attendanceOptional.isEmpty()) {
             return "redirect:/";
         }
+
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeService.getAllEmployees());
-        return "attendance-edit";
+        model.addAttribute("employee", attendanceOptional.get().getEmployee());
+        model.addAttribute("contentFragment", "attendance-edit");
+
+        return "layout";
     }
 
     @PostMapping("/attendance/update")

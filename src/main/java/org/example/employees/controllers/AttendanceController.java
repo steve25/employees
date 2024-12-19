@@ -97,7 +97,7 @@ public class AttendanceController {
     }
 
     @PostMapping("/attendance/update")
-    public String updateAttendance(@ModelAttribute Attendance attendance, @RequestParam Long employeeId) {
+    public String updateAttendance(@ModelAttribute Attendance attendance) {
         System.out.println("Updating Attendance ID: " + attendance.getId());
 
         Optional<Attendance> existingAttendance = attendanceService.getAttendanceById(attendance.getId());
@@ -105,16 +105,10 @@ public class AttendanceController {
             return "redirect:/";
         }
 
-        Optional<Employee> employeeOptional = employeeService.getEmployeeById(employeeId);
-        if (employeeOptional.isEmpty()) {
-            return "redirect:/";
-        }
-
         Attendance updatedAttendance = existingAttendance.get();
         updatedAttendance.setDate(attendance.getDate());
         updatedAttendance.setWorkedHours(attendance.getWorkedHours());
         updatedAttendance.setPresent(attendance.isPresent());
-        updatedAttendance.setEmployee(employeeOptional.get());
 
         attendanceService.save(updatedAttendance);
 

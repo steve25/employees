@@ -2,50 +2,39 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <main th:fragment="content">
-  <h1 th:text="'Edit attandance for ' + ${attendance.employee.firstName} + ' ' + ${attendance.employee.lastName}"></h1>
+    <h1 th:text="'Edit attandance for ' + ${attendance.employee.firstName} + ' ' + ${attendance.employee.lastName}"></h1>
 
-  <div class="edit-page-container">
-    <form action="/submit-edits" method="POST">
-      <div class="input-container">
-        <div class="input-inner-container">
-          <label for="date">Date</label>
-          <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  th:value="${attendance.date}"
-          />
-        </div>
-        <div class="input-inner-container">
-          <label for="hours">Hours</label>
-          <input type="number" name="workedHours" id="hours" th:value="${attendance.workedHours}" />
+    <form th:action="@{/attendance/update}" method="POST">
+        <div class="edit-page-container">
+            <input type="hidden" name="id" th:value="${attendance.id}">
+            <div class="input-container">
+                <div class="input-inner-container">
+                    <label for="date">Date</label>
+                    <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            th:value="${attendance.date}"
+                    />
+                </div>
+                <div class="input-inner-container">
+                    <label for="hours">Hours</label>
+                    <input type="number" name="workedHours" id="hours" th:value="${attendance.workedHours}"/>
+                </div>
+
+                <div class="input-inner-container">
+                    <label for="present">Present</label>
+                    <input type="checkbox" id="present" name="present" checked/>
+                </div>
+            </div>
         </div>
 
-        <div class="input-inner-container">
-          <label for="present">Present</label>
-          <input type="checkbox" id="present" name="present" checked />
-        </div>
-      </div>
 
-      <div class="input-container">
-        <div class="input-inner-container">
-          <label for="position">Position</label>
-          <input
-                  type="text"
-                  id="position"
-                  name="position"
-                  th:value="${employee.position}"
-                  required
-          />
+        <div class="buttons-container">
+            <button type="submit">Save</button>
+            <a th:href="*{'/'}">Cancel</a>
         </div>
-      </div>
-
-      <div class="buttons-container">
-        <button type="submit">Save</button>
-        <a th:href="*{'/'}">Cancel</a>
-      </div>
     </form>
-  </div>
 </main>
 
 </body>

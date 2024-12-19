@@ -75,34 +75,4 @@
         </tr>
         </tbody>
     </table>
-
-
-    <!--    <table>-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>Date</th>-->
-    <!--            <th>Employee</th>-->
-    <!--            <th>Worked Hours</th>-->
-    <!--            <th>Present</th>-->
-    <!--            <th>Actions</th>-->
-    <!--            <th>Delete</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr th:each="attendance : ${attendances}" th:object="${attendance}">-->
-    <!--            <td th:text="${{attendance.date}}"></td>-->
-    <!--            <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>-->
-    <!--            <td th:text="*{workedHours}"></td>-->
-    <!--            <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>-->
-    <!--            <td><a th:href="*{id}">Details</a></td>-->
-    <!--            <td>-->
-    <!--                <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a> |-->
-    <!--                <form th:action="@{/attendance/delete}" method="post" style="display: inline;">-->
-    <!--                    <input type="hidden" name="id" th:value="${attendance.id}" />-->
-    <!--                    <button type="submit">Delete</button>-->
-    <!--                </form>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
 </div>

@@ -389,3 +389,25 @@ footer {
     padding: 10px 0;
     margin-top: 20px;
 }
+
+.hours {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.hour-text {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.hour-buttons-container {
+    flex-shrink: 0;
+}
+
+.hour-button {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+}

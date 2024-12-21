@@ -1,27 +1,38 @@
 const toggleButton = document.getElementById('toggle-attendance-form');
 const closeButton = document.getElementById('close-button');
 const attendanceContainer = document.getElementById('add-attendance-container');
-const deleteButtons = document.querySelectorAll('.deleteButton');
-const modals = document.querySelectorAll('.modal-overlay');
-const cancelButtons = document.querySelectorAll('.cancelButton');
+const tableRow = document.querySelectorAll('.table-row');
 
+if (tableRow) {
+    tableRow.forEach(row => {
+        const id = row.getAttribute('data-attendance-id');
 
-deleteButtons.forEach(button => {
-    button.addEventListener('click', () => {
+        const hourButtons = row.querySelectorAll('.hour-button')
+        const deleteButton = row.querySelector('.delete-button')
 
-        const attendanceId = button.getAttribute('data-attendance-id');
+        hourButtons[0].addEventListener('click', () => {
+            console.log('inc ' + id)
+            axiosModifyHours(id, 1)
+        })
 
-        const modal = document.querySelector(`.modal-overlay[data-attendance-id='${attendanceId}']`);
-        modal.style.display = 'flex';
+        hourButtons[1].addEventListener('click', () => {
+            console.log('dec ' + id)
+            axiosModifyHours(id, -1)
+        })
 
-        const cancelButton = modal.querySelector('.cancelButton');
-        cancelButton.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    });
-});
+        deleteButton.addEventListener('click', () => {
+            const modal = document.querySelector(`.modal-overlay[data-attendance-id='${id}']`);
+            modal.style.display = 'flex';
 
-if (toggleButton ) {
+            const cancelButton = modal.querySelector('.cancelButton');
+            cancelButton.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        })
+    })
+}
+
+if (toggleButton) {
     toggleButton.addEventListener('click', () => {
         if (attendanceContainer.classList.contains('active')) {
             closeForm();
@@ -44,3 +55,13 @@ const closeForm = () => {
         attendanceContainer.style.display = 'none';
     }, 500);
 };
+
+const axiosModifyHours = (id, hours) => {
+    axios.post(`/api/modifyhours/${id}/${hours}`)
+        .then(response => {
+            console.log('Post created:', response.data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}

@@ -45,17 +45,26 @@
         </thead>
         <tbody>
         <tr>
-        <tr th:each="attendance : ${attendances}" th:object="${attendance}">
+        <tr class="table-row" th:each="attendance : ${attendances}" th:object="${attendance}"
+            th:data-attendance-id="${attendance.id}">
             <td th:text="${{attendance.date}}"></td>
             <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>
-            <td th:text="*{workedHours}"></td>
+            <td>
+                <div class="hours">
+                    <span class="hour-text" id="hour-text" th:text="*{workedHours}"></span>
+                    <div class="hour-buttons-container">
+                        <button class="hour-button">+</button>
+                        <button class="hour-button">-</button>
+                    </div>
+                </div>
+            </td>
             <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
             <td>
                 <div class="buttons-container">
                     <a th:href="*{id}">Details</a>
                     <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a>
 
-                    <button class="deleteButton"  th:data-attendance-id="${attendance.id}">Delete</button>
+                    <button class="delete-button" th:data-attendance-id="${attendance.id}">Delete</button>
 
                     <div class="modal-overlay" th:data-attendance-id="${attendance.id}">
                         <div class="modal">

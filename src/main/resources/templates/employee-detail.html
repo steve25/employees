@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<main th:fragment="content">
+    <div class="attendance-details">
+        <h1 th:text="${employee.firstName} + ' ' + ${employee.lastName} + ' details'"></h1>
+        <div class="attendance-info">
+            <div class="attendance-item">
+                <span class="label">Position:</span>
+                <span class="value" th:text="${employee.position}"></span>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <a th:href="@{/employees/edit/{id}(id=${employee.id})}">Edit</a>
+            <button class="deleteButton"  th:data-id="${employee.id}">Delete</button>
+
+            <div class="modal-overlay" th:data-id="${employee.id}">
+                <div class="modal">
+                    <h3>Are you sure you want to delete this item?</h3>
+                    <div class="modal-actions buttons-container">
+                        <form th:action="@{/employees/delete}" method="post">
+                            <input type="hidden" name="id" th:value="${employee.id}"/>
+                            <button type="submit">Delete</button>
+                        </form>
+                        <button class="cancelButton">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <a th:href="*{'/employees'}">Back</a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

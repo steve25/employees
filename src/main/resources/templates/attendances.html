@@ -55,9 +55,9 @@
                     <a th:href="*{id}">Details</a>
                     <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a>
 
-                    <button class="deleteButton"  th:data-attendance-id="${attendance.id}">Delete</button>
+                    <button class="deleteButton"  th:data-id="${attendance.id}">Delete</button>
 
-                    <div class="modal-overlay" th:data-attendance-id="${attendance.id}">
+                    <div class="modal-overlay" th:data-id="${attendance.id}">
                         <div class="modal">
                             <h3>Are you sure you want to delete this item?</h3>
                             <div class="modal-actions buttons-container">

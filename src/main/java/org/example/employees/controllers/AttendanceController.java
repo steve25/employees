@@ -32,7 +32,7 @@ public class AttendanceController {
         List<Employee> employees = employeeService.getAllEmployees();
 
         model.addAttribute("pageTitle", "Home");
-        model.addAttribute("contentFragment", "home");
+        model.addAttribute("contentFragment", "attendances");
         model.addAttribute("attendances", attendances);
         model.addAttribute("employees", employees);
 

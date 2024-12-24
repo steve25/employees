@@ -9,9 +9,9 @@ const cancelButtons = document.querySelectorAll('.cancelButton');
 deleteButtons.forEach(button => {
     button.addEventListener('click', () => {
 
-        const attendanceId = button.getAttribute('data-attendance-id');
+        const attendanceId = button.getAttribute('data-id');
 
-        const modal = document.querySelector(`.modal-overlay[data-attendance-id='${attendanceId}']`);
+        const modal = document.querySelector(`.modal-overlay[data-id='${attendanceId}']`);
         modal.style.display = 'flex';
 
         const cancelButton = modal.querySelector('.cancelButton');

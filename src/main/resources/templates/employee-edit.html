@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
 <main th:fragment="content">
-    <h1 th:text="'Edit ' + ${employee.firstName} + ' ' + ${employee.lastName}"></h1>
+    <h1>Edit employee</h1>
 
     <form th:action="@{/employees/update}" method="POST">
-        <div class="edit-page-container">
+        <div class="edit-page-container edit-page-employee">
             <input type="hidden" name="id" th:value="${employee.id}">
-            <div class="input-inner-container">
-                <label for="first-name">Present</label>
-                <input type="text" id="first-name" name="first-name" th:field="${employee.firstName}"/>
-            </div>
-            <div class="input-inner-container">
-                <label for="lastName">Present</label>
-                <input type="text" id="lastName" name="lastName" th:field="${employee.lastName}"/>
-            </div>
-            <div class="input-inner-container">
-                <label for="position">Present</label>
-                <input type="text" id="position" name="position" th:field="${employee.position}"/>
-            </div>
+            <label for="first-name">Firstname:</label>
+            <input type="text" id="first-name" name="first-name" th:field="${employee.firstName}"/>
+            <label for="lastName">Lastname:</label>
+            <input type="text" id="lastName" name="lastName" th:field="${employee.lastName}"/>
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position" th:field="${employee.position}"/>
         </div>
-
 
         <div class="buttons-container">
             <button type="submit">Save</button>
@@ -28,7 +18,3 @@
         </div>
     </form>
 </main>
-
-</body>
-</html>
-

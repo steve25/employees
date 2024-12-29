@@ -20,7 +20,7 @@ header {
     transition: background-color 0.3s ease-in-out;
 }
 
-header h1 {
+header h2 {
     margin: 0;
     font-size: 1.5rem;
 }
@@ -112,7 +112,7 @@ main h1 {
 }
 
 /* Attendance Container Styles */
-.add-attendance-container {
+.add-form-container {
     max-width: 400px;
     overflow: hidden;
     max-height: 0;
@@ -125,13 +125,13 @@ main h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-attendance-container.active {
+.add-form-container.active {
     max-height: 300px;
     opacity: 1;
 }
 
 /* Form Styles */
-.add-attendance-container form {
+.add-form-container form {
     margin: 20px;
 }
 
@@ -139,7 +139,6 @@ main h1 {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 25px;
 }
 
 .input-inner-container {
@@ -168,8 +167,7 @@ input[type='checkbox'] {
     cursor: pointer;
     appearance: none;
     transition: background-color 0.2s;
-    margin-top: 0;  /* Reset any margin that might push it down */
-
+    margin-top: 0; /* Reset any margin that might push it down */
 }
 
 input[type='checkbox']:checked {
@@ -221,62 +219,100 @@ select {
     font-weight: bold;
 }
 
+h3 {
+    margin-top: 40px;
+    text-align: center;
+    color: #4e3a70;
+}
+/* Table Styles */
+.table-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+}
+
 /* Table Styles */
 table {
-    width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    overflow-x: auto;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    color: #333;
 }
 
-table th,
-table td {
+thead {
+    background-color: #563d7c;
+    color: #fff;
+}
+
+thead th {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tbody tr:hover {
+    background-color: #f0e5ff;
+}
+
+td,
+th {
+    padding: 12px;
     text-align: left;
-    padding: 15px;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
-table th {
-    background-color: #6c5291;
-    color: white;
-    transition: background-color 0.3s ease-in-out;
+th:last-child,
+td:last-child {
+    text-align: center;
 }
 
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+td:not(:last-child),
+th:not(:last-child) {
+    border-right: 1px solid #ddd; /* Vertical borders between columns */
 }
 
-table tr:hover {
-    background-color: #e7ddfa;
-}
-
-/* Table Button Styles */
+/* Button Styles */
 .table-buttons {
     display: flex;
+    justify-content: center;
     gap: 10px;
-    align-items: center;
 }
 
 .table-buttons a,
 .table-buttons button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 15px;
+    padding: 8px 16px;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 5px;
-    background-color: #4e3a70;
-    color: white;
+    color: #fff;
+    background-color: #6c5291;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
-    box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
 .table-buttons a:hover,
 .table-buttons button:hover {
-    background-color: #6c5291;
+    background-color: #563d7c;
+}
+
+button.deleteButton {
+    background-color: #c0392b;
+}
+
+button.deleteButton:hover {
+    background-color: #e74c3c;
 }
 
 /* Details Syles */
@@ -286,7 +322,7 @@ table tr:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px auto;
-    max-width: 600px;
+    max-width: 400px;
 }
 
 .buttons-container {
@@ -341,14 +377,20 @@ table tr:hover {
 }
 
 /* Edit page Styles */
-
 .edit-page-container {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px auto;
+}
+
+.edit-page-attandance {
     max-width: 600px;
+}
+
+.edit-page-employee {
+    max-width: 400px;
 }
 
 .edit-page-container .buttons-container {
@@ -379,7 +421,6 @@ table tr:hover {
 .modal-actions {
     margin-top: 20px;
 }
-
 
 /* Footer Styles */
 footer {

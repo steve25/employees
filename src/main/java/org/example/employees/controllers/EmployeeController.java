@@ -51,7 +51,7 @@ public class EmployeeController {
     public String addEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee);
 
-        return "redirect:/";
+        return "redirect:/employees";
     }
 
     @GetMapping("/edit/{id}")
@@ -72,7 +72,7 @@ public class EmployeeController {
         Optional<Employee> employeeFromDb = employeeService.getEmployeeById(employee.getId());
 
         if (employeeFromDb.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/employees";
         }
 
         employeeFromDb.get().setFirstName(employee.getFirstName());

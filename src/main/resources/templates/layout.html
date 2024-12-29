@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Attendance System</title>
-    <link th:href="@{/styles/style.css}" rel="stylesheet" />
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
 </head>
 <body>
 <header>
@@ -20,9 +20,7 @@
     </nav>
 </header>
 
-<main>
-    <div th:replace="*{contentFragment} :: content"></div>
-</main>
+<div th:replace="*{contentFragment} :: content"></div>
 
 <footer>
     <p>© 2024 Attendance System</p>

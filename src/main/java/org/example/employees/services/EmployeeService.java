@@ -2,33 +2,15 @@ package org.example.employees.services;
 
 import org.example.employees.models.Employee;
 import org.example.employees.repositories.EmployeeRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class EmployeeService {
-
-    private final EmployeeRepository employeeRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
-    }
-
-    public Optional<Employee> getEmployeeById(Long id) {
-        return employeeRepository.findById(id);
-    }
-    public Employee save(Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
-    public void deleteById(Long id) {
-        employeeRepository.deleteById(id);
-    }
+public interface EmployeeService {
+    List<Employee> getAllEmployees(String orderBy, String orderDirection);
+    List<Employee> getAllEmployeesPageable(String orderBy, String orderDirection, int page, int size);
+    Optional<Employee> getEmployeeById(Long id);
+    Employee save(Employee employee);
+    void deleteById(Long id);
 }

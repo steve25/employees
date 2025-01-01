@@ -8,6 +8,16 @@ body {
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
 /* Header Styles */
 header {
     background-color: #6c5291;
@@ -32,7 +42,7 @@ nav {
     align-items: center;
 }
 
-nav ul {
+ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -40,7 +50,7 @@ nav ul {
     gap: 15px;
 }
 
-nav ul li a {
+ul li a {
     text-decoration: none;
     color: white;
     font-size: large;
@@ -50,9 +60,8 @@ nav ul li a {
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
-nav ul li a:hover {
+ul li a:hover {
     background-color: #8b6fae;
-    transform: scale(1.1);
 }
 
 nav .login,
@@ -231,13 +240,13 @@ h3 {
     overflow: hidden;
     margin: 20px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 90%;
+    max-width: 100%;
 }
 
 /* Table Styles */
 table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
     font-family: 'Arial', sans-serif;
     color: #333;
 }
@@ -395,6 +404,20 @@ button.deleteButton:hover {
 
 .edit-page-container .buttons-container {
     gap: 25px;
+}
+
+.paginator {
+    display: flex;
+    justify-content: end;
+}
+
+.paginator a {
+    background-color: #b694de;
+}
+
+.paginator a:hover {
+    text-decoration: none;
+    background-color: #8b6fae;
 }
 
 /* Modal */

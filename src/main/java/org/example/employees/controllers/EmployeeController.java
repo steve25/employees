@@ -1,7 +1,7 @@
 package org.example.employees.controllers;
 
 import org.example.employees.models.Employee;
-import org.example.employees.services.EmployeeService;
+import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,27 +14,35 @@ import java.util.Optional;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeServiceImpl;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public EmployeeController(EmployeeServiceImpl employeeServiceImpl) {
+        this.employeeServiceImpl = employeeServiceImpl;
     }
 
     @GetMapping
-    public String getAllEmployees(Model model) {
-        List<Employee> employees = employeeService.getAllEmployees();
+    public String getAllEmployees(
+            @RequestParam(value = "orderBy", required = false, defaultValue = "lastName") String orderBy,
+            @RequestParam(value = "orderDirection", required = false, defaultValue = "asc") String orderDirection,
+            Model model
+    ) {
+        List<Employee> employees = employeeServiceImpl.getAllEmployees(orderBy, orderDirection);
+
+        orderDirection = orderDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
 
         model.addAttribute("pageTitle", "Home");
         model.addAttribute("contentFragment", "employees");
         model.addAttribute("employees", employees);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("orderDirection", orderDirection);
 
         return "layout";
     }
 
     @GetMapping("/{id}")
     public String getEmployeeById(@PathVariable Long id, Model model) {
-        Optional<Employee> employee = employeeService.getEmployeeById(id);
+        Optional<Employee> employee = employeeServiceImpl.getEmployeeById(id);
 
         if (employee.isEmpty()) {
             return "redirect:/";
@@ -49,14 +57,14 @@ public class EmployeeController {
 
     @PostMapping("/add-employee")
     public String addEmployee(@ModelAttribute Employee employee) {
-        employeeService.save(employee);
+        employeeServiceImpl.save(employee);
 
         return "redirect:/employees";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
-        Optional<Employee> employee = employeeService.getEmployeeById(id);
+        Optional<Employee> employee = employeeServiceImpl.getEmployeeById(id);
         if (employee.isEmpty()) {
             return "redirect:/";
         }
@@ -69,7 +77,7 @@ public class EmployeeController {
 
     @PostMapping("/update")
     public String updateAttendance(@ModelAttribute Employee employee) {
-        Optional<Employee> employeeFromDb = employeeService.getEmployeeById(employee.getId());
+        Optional<Employee> employeeFromDb = employeeServiceImpl.getEmployeeById(employee.getId());
 
         if (employeeFromDb.isEmpty()) {
             return "redirect:/employees";
@@ -79,14 +87,14 @@ public class EmployeeController {
         employeeFromDb.get().setLastName(employee.getLastName());
         employeeFromDb.get().setPosition(employee.getPosition());
 
-        employeeService.save(employeeFromDb.get());
+        employeeServiceImpl.save(employeeFromDb.get());
 
         return "redirect:/";
     }
 
     @PostMapping("/delete")
     public String deleteAttendance(@RequestParam Long id) {
-        employeeService.deleteById(id);
+        employeeServiceImpl.deleteById(id);
         return "redirect:/employees";
     }
 }

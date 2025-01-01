@@ -3,13 +3,12 @@ package org.example.employees.controllers;
 import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
-import org.example.employees.services.EmployeeService;
+import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,19 +16,19 @@ import java.util.Optional;
 @RequestMapping("/")
 public class AttendanceController {
 
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeServiceImpl;
     private final AttendanceService attendanceService;
 
     @Autowired
-    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService) {
-        this.employeeService = employeeService;
+    public AttendanceController(EmployeeServiceImpl employeeServiceImpl, AttendanceService attendanceService) {
+        this.employeeServiceImpl = employeeServiceImpl;
         this.attendanceService = attendanceService;
     }
 
     @GetMapping
     public String getAllAttendances(Model model) {
         List<Attendance> attendances = attendanceService.getAllAttendances();
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = employeeServiceImpl.getAllEmployees("lastName", "asc");
 
         model.addAttribute("pageTitle", "Home");
         model.addAttribute("contentFragment", "attendances");
@@ -63,14 +62,14 @@ public class AttendanceController {
 
     @PostMapping("/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee) {
-        employeeService.save(employee);
+        employeeServiceImpl.save(employee);
 
         return "redirect:/";
     }
 
     @PostMapping("/addAttendance")
     public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance) {
-        Optional<Employee> employee = employeeService.getEmployeeById(employeeId);
+        Optional<Employee> employee = employeeServiceImpl.getEmployeeById(employeeId);
 
         if (employee.isEmpty()) {
             return "redirect:/";

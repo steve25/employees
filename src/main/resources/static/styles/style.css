@@ -42,7 +42,7 @@ nav {
     align-items: center;
 }
 
-nav ul {
+ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -50,7 +50,7 @@ nav ul {
     gap: 15px;
 }
 
-nav ul li a {
+ul li a {
     text-decoration: none;
     color: white;
     font-size: large;
@@ -60,9 +60,8 @@ nav ul li a {
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
-nav ul li a:hover {
+ul li a:hover {
     background-color: #8b6fae;
-    transform: scale(1.1);
 }
 
 nav .login,
@@ -405,6 +404,20 @@ button.deleteButton:hover {
 
 .edit-page-container .buttons-container {
     gap: 25px;
+}
+
+.paginator {
+    display: flex;
+    justify-content: end;
+}
+
+.paginator a {
+    background-color: #b694de;
+}
+
+.paginator a:hover {
+    text-decoration: none;
+    background-color: #8b6fae;
 }
 
 /* Modal */

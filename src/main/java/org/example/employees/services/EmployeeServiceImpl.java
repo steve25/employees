@@ -2,6 +2,8 @@ package org.example.employees.services;
 
 import org.example.employees.models.Employee;
 import org.example.employees.repositories.EmployeeRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         Sort.Direction sort = orderDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         return employeeRepository.findAll(Sort.by(sort, orderBy));
+    }
+
+    public List<Employee> getAllEmployeesPageable(String orderBy, String orderDirection, int page, int size) {
+        Sort.Direction sortDirection = orderDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, orderBy);
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return employeeRepository.findAll(pageable).getContent();
     }
 
     public Optional<Employee> getEmployeeById(Long id) {

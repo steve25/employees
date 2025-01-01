@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/employees")
 public class EmployeeController {
 
+    private final int PAGE_SIZE = 5;
     private final EmployeeServiceImpl employeeServiceImpl;
 
     @Autowired
@@ -23,19 +24,21 @@ public class EmployeeController {
 
     @GetMapping
     public String getAllEmployees(
-            @RequestParam(value = "orderBy", required = false, defaultValue = "lastName") String orderBy,
-            @RequestParam(value = "orderDirection", required = false, defaultValue = "asc") String orderDirection,
+            @RequestParam(required = false, defaultValue = "lastName") String orderBy,
+            @RequestParam(required = false, defaultValue = "asc") String orderDirection,
+            @RequestParam(required = false, defaultValue = "0") int page,
             Model model
     ) {
-        List<Employee> employees = employeeServiceImpl.getAllEmployees(orderBy, orderDirection);
+        List<Employee> employees = employeeServiceImpl.getAllEmployeesPageable(orderBy, orderDirection, page, PAGE_SIZE);
 
         orderDirection = orderDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
 
-        model.addAttribute("pageTitle", "Home");
         model.addAttribute("contentFragment", "employees");
         model.addAttribute("employees", employees);
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDirection", orderDirection);
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize", PAGE_SIZE);
 
         return "layout";
     }
@@ -48,7 +51,6 @@ public class EmployeeController {
             return "redirect:/";
         }
 
-        model.addAttribute("pageTitle", "Details");
         model.addAttribute("contentFragment", "employee-detail");
         model.addAttribute("employee", employee.get());
 

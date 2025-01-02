@@ -3,11 +3,14 @@ package org.example.employees.controllers;
 import org.example.employees.models.Employee;
 import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -27,18 +30,27 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "lastName") String orderBy,
             @RequestParam(required = false, defaultValue = "asc") String orderDirection,
             @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false) String searchQuery,
             Model model
     ) {
-        List<Employee> employees = employeeServiceImpl.getAllEmployeesPageable(orderBy, orderDirection, page, PAGE_SIZE);
+        Page<Employee> employees;
+
+        if (Objects.nonNull(searchQuery)) {
+            model.addAttribute("searchQuery", searchQuery.trim());
+            employees = employeeServiceImpl.findByNameLike(searchQuery.trim(), orderBy, orderDirection, page, PAGE_SIZE);
+        } else {
+            employees = employeeServiceImpl.getAllEmployeesPageable(orderBy, orderDirection, page, PAGE_SIZE);
+        }
 
         orderDirection = orderDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
 
         model.addAttribute("contentFragment", "employees");
-        model.addAttribute("employees", employees);
+        model.addAttribute("employees", employees.getContent());
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDirection", orderDirection);
         model.addAttribute("page", page);
-        model.addAttribute("pageSize", PAGE_SIZE);
+        model.addAttribute("totalPages", employees.getTotalPages());
+
 
         return "layout";
     }

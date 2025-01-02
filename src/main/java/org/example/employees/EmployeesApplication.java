@@ -63,8 +63,8 @@ public class EmployeesApplication implements ApplicationRunner {
                 new Employee("Lucia", "Hajdukova", "Accountant"),
                 new Employee("Ondrej", "Urban", "Marketing Specialist"),
                 new Employee("Martin", "Cerny", "Backend Developer"),
-                new Employee("Veronika", "Dubcova", "Frontend Developer"),
-                new Employee("Juraj", "Stancik", "DevOps Engineer")
+//                new Employee("Veronika", "Dubcova", "Frontend Developer"),
+                 new Employee("Juraj", "Stancik", "DevOps Engineer")
         );
     }
 

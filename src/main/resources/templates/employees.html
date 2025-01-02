@@ -26,22 +26,34 @@
         </form>
     </div>
 
+    <form th:action="@{/employees}" method="get">
+        <div class="search-container">
+            <label for="search-input">Search by name:</label>
+            <div class="input-wrapper">
+                <input type="text" name="searchQuery" id="search-input"
+                       th:value="${searchQuery != null and searchQuery != '' ? searchQuery : ''}"
+                       placeholder="Search by name"/>
+                <button type="submit">Search</button>
+                <a th:href="@{/employees}">Clear</a>
+            </div>
+        </div>
+    </form>
+
     <p class="info" th:unless="${employees.size()}">No employee in our system.</p>
 
     <div class="table-wrapper">
-
         <table th:if="${employees.size() > 0}">
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{/employees(orderBy='lastName', orderDirection=${orderBy} == 'lastName' ? ${orderDirection} : 'asc')}">Name</a>
+                    <a th:href="@{/employees(orderBy='lastName', orderDirection=${orderBy} == 'lastName' ? ${orderDirection} : 'asc', searchQuery=${searchQuery != null and searchQuery != '' ? searchQuery : ''})}">Name</a>
                     <img th:if="${orderBy == 'lastName' and orderDirection == 'asc'}"
                          th:src="@{/images/sort-down.png}" alt="sort down arrow">
                     <img th:if="${orderBy == 'lastName' and orderDirection == 'desc'}"
                          th:src="@{/images/sort-up.png}" alt="sort up arrow">
                 </th>
                 <th>
-                    <a th:href="@{/employees(orderBy='position', orderDirection=${orderBy} == 'position' ? ${orderDirection} : 'asc')}">Position</a>
+                    <a th:href="@{/employees(orderBy='position', orderDirection=${orderBy} == 'position' ? ${orderDirection} : 'asc', searchQuery=${searchQuery != null and searchQuery != '' ? searchQuery : ''})}">Position</a>
                     <img th:if="${orderBy == 'position' and orderDirection == 'asc'}"
                          th:src="@{/images/sort-down.png}" alt="sort down arrow">
                     <img th:if="${orderBy == 'position' and orderDirection == 'desc'}"
@@ -73,10 +85,12 @@
     <div class="paginator" th:if="${employees.size() > 0}">
         <ul>
             <li th:if="${page > 0}">
-                <a th:href="@{/employees(page=${page - 1}, orderBy=${orderBy}, orderDirection=${orderDirection})}"> < </a>
+                <a th:href="@{/employees(page=${page - 1}, orderBy=${orderBy}, orderDirection=${orderDirection}, searchQuery=${searchQuery != null and searchQuery != '' ? searchQuery : ''})}">
+                    < </a>
             </li>
-            <li th:if="${employees.size() / pageSize >= page}">
-                <a th:href="@{/employees(page=${page + 1}, orderBy=${orderBy}, orderDirection=${orderDirection} == 'asc' ? 'desc' : 'asc')}"> > </a>
+            <li th:if="${page + 1 < totalPages}">
+                <a th:href="@{/employees(page=${page + 1}, orderBy=${orderBy}, orderDirection=${orderDirection} == 'asc' ? 'desc' : 'asc', searchQuery=${searchQuery != null and searchQuery != '' ? searchQuery : ''})}">
+                    > </a>
             </li>
         </ul>
     </div>

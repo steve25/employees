@@ -76,6 +76,7 @@ nav .login {
     background-color: white;
     color: #6c5291;
     border: 2px solid white;
+    margin-right: 7px;
 }
 
 nav .register {
@@ -418,6 +419,66 @@ button.deleteButton:hover {
 .paginator a:hover {
     text-decoration: none;
     background-color: #8b6fae;
+}
+
+/* Basic styling */
+.search-container {
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.input-wrapper input[type="text"] {
+    margin: 0;
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.input-wrapper button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #b694de;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 100%;
+}
+
+.input-wrapper button:hover {
+    background-color: #8b6fae;
+}
+
+.input-wrapper input[type="text"]:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.input-wrapper a {
+    border-radius: 7px;
+    font-size: 13px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: content-box;
+    background-color: #b694de;
+}
+
+.input-wrapper a:hover {
+    text-decoration: none;
+    background-color: #8b6fae;
+}
+
+.search-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 /* Modal */

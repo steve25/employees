@@ -2,8 +2,12 @@ package org.example.employees;
 
 import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
+import org.example.employees.models.Role;
+import org.example.employees.models.User;
 import org.example.employees.repositories.AttendanceRepository;
 import org.example.employees.repositories.EmployeeRepository;
+import org.example.employees.repositories.RoleRepository;
+import org.example.employees.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -11,20 +15,22 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootApplication
 public class EmployeesApplication implements ApplicationRunner {
 
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public EmployeesApplication(AttendanceRepository attendanceRepository, EmployeeRepository employeeRepository) {
+    public EmployeesApplication(AttendanceRepository attendanceRepository, EmployeeRepository employeeRepository, UserRepository userRepository, RoleRepository roleRepository) {
         this.attendanceRepository = attendanceRepository;
         this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public static void main(String[] args) {
@@ -40,7 +46,16 @@ public class EmployeesApplication implements ApplicationRunner {
         List<Employee> employees = createEmployees();
         List<Attendance> attendances = new ArrayList<>();
 
+        Role role = new Role();
+        role.setName("ROLE_USER");
+
+        roleRepository.save(role);
+
         for (Employee employee : employees) {
+            User user = new User(employee.getFirstName().toLowerCase(), "123");
+            user.setEmployee(employee);
+            user.setRoles(List.of(role));
+            userRepository.save(user);
             employeeRepository.save(employee);
             attendances.addAll(createAttendancesForEmployee(employee));
         }

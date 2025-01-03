@@ -23,6 +23,9 @@ public class Employee extends BaseEntity {
     @Column(name = "position", nullable = false, length = 100)
     private String position;
 
+    @OneToOne(mappedBy = "employee")
+    private User user;
+
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendance> attendanceRecords = new ArrayList<>();
 

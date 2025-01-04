@@ -47,7 +47,7 @@ public class AttendanceController {
         }
 
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeService.getAllEmployees());
+        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
         return "attendance-edit";
     }
 
@@ -60,7 +60,7 @@ public class AttendanceController {
         }
 
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeService.getAllEmployees());
+        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
         return "attendance-edit";
     }
 
@@ -71,7 +71,7 @@ public class AttendanceController {
 
         if (!success) {
             model.addAttribute("error", "A record for this day already exists.");
-            model.addAttribute("employees", employeeService.getAllEmployees());
+            model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
             return "redirect:/error";
         }
 

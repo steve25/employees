@@ -7,7 +7,14 @@ import java.util.Optional;
 
 public interface AttendanceService {
     List<Attendance> getAllAttendances();
+
     Optional<Attendance> getAttendanceById(Long id);
-    void save(Attendance attendance);
+
     void deleteAttendance(Long id);
+
+    void updateWorkedHours(Long id, boolean increase);
+
+    boolean addAttendanceForEmployee(long employeeId, Attendance attendance);
+
+    boolean updateAttendance(Long attendanceId, Attendance attendance, Long employeeId);
 }

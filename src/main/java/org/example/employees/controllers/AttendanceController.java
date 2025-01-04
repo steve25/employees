@@ -38,85 +38,88 @@ public class AttendanceController {
         return "layout";
     }
 
-    @GetMapping("/{id}")
-    public String getAttendanceById(@PathVariable Long id, Model model) {
-        Optional<Attendance> attendance = attendanceService.getAttendanceById(id);
+    @GetMapping("/attendance/details")
+    public String showAttendanceForm(@RequestParam Long id, Model model) {
+        var attendanceOptional = attendanceService.getAttendanceById(id);
 
-        if (attendance.isEmpty()) {
-            return "redirect:/";
+        if (attendanceOptional.isEmpty()) {
+            return "redirect:/error";
         }
 
-        model.addAttribute("pageTitle", "Details");
-        model.addAttribute("contentFragment", "attendance-detail");
-        model.addAttribute("attendance", attendance.get());
-
-        return "layout";
-    }
-
-    @GetMapping("/form")
-    public String showForm(Model model) {
-        model.addAttribute("employee", new Employee());
-        model.addAttribute("attendance", new Attendance());
-        return "form";
-    }
-
-    @PostMapping("/addEmployee")
-    public String addEmployee(@ModelAttribute Employee employee) {
-        employeeServiceImpl.save(employee);
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/addAttendance")
-    public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance) {
-        Optional<Employee> employee = employeeServiceImpl.getEmployeeById(employeeId);
-
-        if (employee.isEmpty()) {
-            return "redirect:/";
-        }
-
-        attendance.setEmployee(employee.get());
-        attendanceService.save(attendance);
-
-        return "redirect:/";
+        model.addAttribute("attendance", attendanceOptional.get());
+        model.addAttribute("employees", employeeService.getAllEmployees());
+        return "attendance-edit";
     }
 
     @GetMapping("/attendance/edit")
     public String showUpdateForm(@RequestParam Long id, Model model) {
         Optional<Attendance> attendanceOptional = attendanceService.getAttendanceById(id);
+
         if (attendanceOptional.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/error";
         }
 
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employee", attendanceOptional.get().getEmployee());
-        model.addAttribute("contentFragment", "attendance-edit");
-
-        return "layout";
+        model.addAttribute("employees", employeeService.getAllEmployees());
+        return "attendance-edit";
     }
 
-    @PostMapping("/attendance/update")
-    public String updateAttendance(@ModelAttribute Attendance attendance) {
-        System.out.println("Updating Attendance ID: " + attendance.getId());
+    @PostMapping("/addAttendance")
 
-        Optional<Attendance> existingAttendance = attendanceService.getAttendanceById(attendance.getId());
-        if (existingAttendance.isEmpty()) {
-            return "redirect:/";
+    public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance, Model model) {
+        boolean success = attendanceService.addAttendanceForEmployee(employeeId, attendance);
+
+        if (!success) {
+            model.addAttribute("error", "A record for this day already exists.");
+            model.addAttribute("employees", employeeService.getAllEmployees());
+            return "redirect:/error";
         }
-
-        Attendance updatedAttendance = existingAttendance.get();
-        updatedAttendance.setDate(attendance.getDate());
-        updatedAttendance.setWorkedHours(attendance.getWorkedHours());
-        updatedAttendance.setPresent(attendance.isPresent());
-
-        attendanceService.save(updatedAttendance);
 
         return "redirect:/";
     }
+
 
     @PostMapping("/attendance/delete")
     public String deleteAttendance(@RequestParam Long id) {
         attendanceService.deleteAttendance(id);
         return "redirect:/";
     }
+
+    @PostMapping("/attendance/update")
+    public String updateAttendance(@ModelAttribute Attendance attendance, @RequestParam Long employeeId) {
+        boolean success = attendanceService.updateAttendance(attendance.getId(), attendance, employeeId);
+
+        if (!success) {
+            return "redirect:/error";
+        }
+
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/{id}")
+    public String getAttendanceDetails(@PathVariable Long id, Model model) {
+        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceById(id);
+
+        if (attendanceOptional.isEmpty()) {
+            return "redirect:/error";
+        }
+
+        model.addAttribute("attendance", attendanceOptional.get());
+        return "attendance-detail";
+    }
+
+    @PostMapping("/attendance/increaseHours")
+    public String increaseWorkedHours(@RequestParam Long id) {
+        attendanceService.updateWorkedHours(id, true);
+        return "redirect:/";
+    }
+
+    @PostMapping("/attendance/decreaseHours")
+    public String decreaseWorkedHours(@RequestParam Long id) {
+        attendanceService.updateWorkedHours(id, false);
+        return "redirect:/";
+    }
+
 }
+

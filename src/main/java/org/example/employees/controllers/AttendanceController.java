@@ -3,7 +3,7 @@ package org.example.employees.controllers;
 import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
-import org.example.employees.services.EmployeeService;
+import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,22 +16,22 @@ import java.util.Optional;
 @RequestMapping("/")
 public class AttendanceController {
 
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeServiceImpl;
     private final AttendanceService attendanceService;
 
     @Autowired
-    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService) {
-        this.employeeService = employeeService;
+    public AttendanceController(EmployeeServiceImpl employeeServiceImpl, AttendanceService attendanceService) {
+        this.employeeServiceImpl = employeeServiceImpl;
         this.attendanceService = attendanceService;
     }
 
     @GetMapping
     public String getAllAttendances(Model model) {
         List<Attendance> attendances = attendanceService.getAllAttendances();
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = employeeServiceImpl.getAllEmployees("lastName", "asc");
 
         model.addAttribute("pageTitle", "Home");
-        model.addAttribute("contentFragment", "home");
+        model.addAttribute("contentFragment", "attendances");
         model.addAttribute("attendances", attendances);
         model.addAttribute("employees", employees);
 
@@ -65,6 +65,7 @@ public class AttendanceController {
     }
 
     @PostMapping("/addAttendance")
+
     public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance, Model model) {
         boolean success = attendanceService.addAttendanceForEmployee(employeeId, attendance);
 
@@ -76,6 +77,7 @@ public class AttendanceController {
 
         return "redirect:/";
     }
+
 
     @PostMapping("/attendance/delete")
     public String deleteAttendance(@RequestParam Long id) {
@@ -90,6 +92,7 @@ public class AttendanceController {
         if (!success) {
             return "redirect:/error";
         }
+
 
         return "redirect:/";
     }

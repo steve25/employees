@@ -1,0 +1,20 @@
+<main th:fragment="content">
+    <h1>Edit employee</h1>
+
+    <form th:action="@{/employees/update}" method="POST">
+        <div class="edit-page-container edit-page-employee">
+            <input type="hidden" name="id" th:value="${employee.id}">
+            <label for="first-name">Firstname:</label>
+            <input type="text" id="first-name" name="first-name" th:field="${employee.firstName}"/>
+            <label for="lastName">Lastname:</label>
+            <input type="text" id="lastName" name="lastName" th:field="${employee.lastName}"/>
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position" th:field="${employee.position}"/>
+        </div>
+
+        <div class="buttons-container">
+            <button type="submit">Save</button>
+            <a th:href="*{'/'}">Cancel</a>
+        </div>
+    </form>
+</main>

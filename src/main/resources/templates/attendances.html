@@ -1,0 +1,77 @@
+<main th:fragment="content">
+    <h1>Attandances</h1>
+
+    <button class="toggle-btn" id="toggle-add-form">
+        Add New Attendance
+    </button>
+
+    <div class="add-form-container">
+        <form th:action="@{/addAttendance}" method="post">
+            <label for="employeeId">Employee</label>
+            <select name="employeeId">
+                <option value="">Select employee</option>
+                <option th:each="employee : ${employees}" th:value="${employee.id}"
+                        th:text="${employee.firstName} + ' ' + ${employee.lastName}"></option>
+            </select>
+            <div class="input-container">
+                <div>
+                    <label for="date">Date</label>
+                    <input type="date" name="date" id="date"
+                           th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                </div>
+                <div>
+                    <label for="hours">Hours</label>
+                    <input type="number" name="workedHours" id="hours"/>
+                </div>
+            </div>
+            <div class="buttons-container">
+                <button type="submit">Submit Attendance</button>
+                <button type="button" id="close-button">Close</button>
+            </div>
+        </form>
+    </div>
+
+    <p class="info" th:unless="${attendances.size()}">No attendances in our system.</p>
+
+    <div class="table-wrapper">
+        <table th:if="${attendances.size() > 0}">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Employee</th>
+                <th>Worked Hours</th>
+                <th>Present</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="attendance : ${attendances}" th:object="${attendance}">
+                <td th:text="${{attendance.date}}"></td>
+                <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>
+                <td th:text="*{workedHours}"></td>
+                <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
+                <td>
+                    <div class="buttons-container">
+                        <a th:href="*{id}">Details</a>
+                        <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a>
+                        <button class="deleteButton" th:data-id="${attendance.id}" th:data-endpoint="@{/attendance}">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-overlay">
+        <div class="modal">
+            <h3>Are you sure you want to delete this item?</h3>
+            <div class="modal-actions buttons-container">
+                <form th:action="@{/}" method="post">
+                    <input type="hidden" name="id" />
+                    <button type="submit">Delete</button>
+                </form>
+                <button class="cancelButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+</main>

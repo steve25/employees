@@ -2,26 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Home</title>
+    <title>Employee Attendance System</title>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
 </head>
 <body>
 <header>
-    <h1>My Website</h1>
     <nav>
+        <h1>Attendance System</h1>
         <ul>
-            <li><a th:href="@{/home}">Home</a></li>
-            <li><a th:href="@{/about}">About</a></li>
-            <li><a th:href="@{/contact}">Contact</a></li>
+            <li><a th:href="*{'/'}">Attandances</a></li>
+            <li><a th:href="*{'/employees'}">Employees</a></li>
         </ul>
+        <div>
+            <a href="/get-started" class="login">Login</a>
+            <a href="/get-started" class="register">Register</a>
+        </div>
     </nav>
 </header>
 
-<main>
-    <div th:replace="*{contentFragment} :: content"></div>
-</main>
+<div th:replace="*{contentFragment} :: content"></div>
 
 <footer>
-    <p>© 2024 My Website</p>
+    <p>© 2024 Attendance System</p>
 </footer>
+
+<script th:src="@{/script/main.js}"></script>
 </body>
 </html>

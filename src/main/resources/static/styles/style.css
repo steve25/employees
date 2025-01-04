@@ -1,0 +1,516 @@
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f0ff;
+    color: #333;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Header Styles */
+header {
+    background-color: #6c5291;
+    color: white;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Navigation Styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+ul li a:hover {
+    background-color: #8b6fae;
+}
+
+nav .login,
+nav .register {
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+nav .login {
+    background-color: white;
+    color: #6c5291;
+    border: 2px solid white;
+    margin-right: 7px;
+}
+
+nav .register {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+nav .login:hover {
+    background-color: transparent;
+    color: white;
+}
+
+/* Main Content Styles */
+main {
+    margin: auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+main h1 {
+    text-align: center;
+    color: #4e3a70;
+    font-size: 2rem;
+}
+
+/* Button Styles */
+.toggle-btn {
+    background-color: #4e3a70;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: block;
+    margin: 20px auto;
+}
+
+.toggle-btn:hover {
+    background-color: #6c5291;
+}
+
+/* Attendance Container Styles */
+.add-form-container {
+    max-width: 400px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 1;
+    display: none;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    background-color: white;
+    border-radius: 10px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-form-container.active {
+    max-height: 300px;
+    opacity: 1;
+}
+
+/* Form Styles */
+.add-form-container form {
+    margin: 20px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.input-inner-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    height: 20px;
+    line-height: 20px;
+}
+
+input[type='checkbox'] {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 2px solid #4e3a70;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    transition: background-color 0.2s;
+    margin-top: 0; /* Reset any margin that might push it down */
+}
+
+input[type='checkbox']:checked {
+    background-color: #a684ce;
+}
+
+input,
+select,
+button {
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+input,
+select {
+    margin-bottom: 10px;
+    width: calc(100% - 30px);
+    box-sizing: content-box;
+}
+
+.form-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.add-attendance-container button {
+    background-color: #4e3a70;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-attendance-container button:hover {
+    background-color: #6c5291;
+}
+
+.info {
+    text-align: center;
+    background-color: rgba(255, 252, 201, 0.51);
+    padding: 25px 20px;
+    border: 3px solid burlywood;
+    border-radius: 7px;
+    font-size: 20px;
+    color: #c99817;
+    font-weight: bold;
+}
+
+h3 {
+    margin-top: 40px;
+    text-align: center;
+    color: #4e3a70;
+}
+/* Table Styles */
+.table-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+thead {
+    background-color: #563d7c;
+    color: #fff;
+}
+
+thead th {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tbody tr:hover {
+    background-color: #f0e5ff;
+}
+
+td,
+th {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th:last-child,
+td:last-child {
+    text-align: center;
+}
+
+td:not(:last-child),
+th:not(:last-child) {
+    border-right: 1px solid #ddd; /* Vertical borders between columns */
+}
+
+/* Button Styles */
+.table-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.table-buttons a,
+.table-buttons button {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6c5291;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.table-buttons a:hover,
+.table-buttons button:hover {
+    background-color: #563d7c;
+}
+
+button.deleteButton {
+    background-color: #c0392b;
+}
+
+button.deleteButton:hover {
+    background-color: #e74c3c;
+}
+
+/* Details Syles */
+.attendance-info {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons-container a,
+.buttons-container button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #4e3a70;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    border: none;
+}
+
+.buttons-container a:hover,
+.buttons-container button:hover {
+    background-color: #6c5291;
+}
+
+.attendance-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-item:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+    color: #4e3a70;
+}
+
+.value {
+    color: #333;
+    font-weight: normal;
+}
+
+/* Edit page Styles */
+.edit-page-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.edit-page-attandance {
+    max-width: 600px;
+}
+
+.edit-page-employee {
+    max-width: 400px;
+}
+
+.edit-page-container .buttons-container {
+    gap: 25px;
+}
+
+.paginator {
+    display: flex;
+    justify-content: end;
+}
+
+.paginator a {
+    background-color: #b694de;
+}
+
+.paginator a:hover {
+    text-decoration: none;
+    background-color: #8b6fae;
+}
+
+/* Basic styling */
+.search-container {
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.input-wrapper input[type="text"] {
+    margin: 0;
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.input-wrapper button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #b694de;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 100%;
+}
+
+.input-wrapper button:hover {
+    background-color: #8b6fae;
+}
+
+.input-wrapper input[type="text"]:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.input-wrapper a {
+    border-radius: 7px;
+    font-size: 13px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: content-box;
+    background-color: #b694de;
+}
+
+.input-wrapper a:hover {
+    text-decoration: none;
+    background-color: #8b6fae;
+}
+
+.search-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-actions {
+    margin-top: 20px;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #6c5291;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}

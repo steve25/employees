@@ -514,3 +514,39 @@ footer {
     padding: 10px 0;
     margin-top: 20px;
 }
+
+.hours {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.hour-text {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.hour-buttons-container {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.hour-button {
+    display: flex;
+    background-color: #bbc6ce;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.hour-button:hover {
+    text-decoration: none;
+}

@@ -109,13 +109,13 @@ public class AttendanceController {
         return "attendance-detail";
     }
 
-    @PostMapping("/attendance/increaseHours")
+    @GetMapping("/attendance/increaseHours")
     public String increaseWorkedHours(@RequestParam Long id) {
         attendanceService.updateWorkedHours(id, true);
         return "redirect:/";
     }
 
-    @PostMapping("/attendance/decreaseHours")
+    @GetMapping("/attendance/decreaseHours")
     public String decreaseWorkedHours(@RequestParam Long id) {
         attendanceService.updateWorkedHours(id, false);
         return "redirect:/";

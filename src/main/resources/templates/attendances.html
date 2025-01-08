@@ -48,7 +48,15 @@
             <tr th:each="attendance : ${attendances}" th:object="${attendance}">
                 <td th:text="${{attendance.date}}"></td>
                 <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>
-                <td th:text="*{workedHours}"></td>
+                <td>
+                    <div class="hours">
+                        <span class="hour-text" id="hour-text" th:text="*{workedHours}"></span>
+                        <div class="hour-buttons-container">
+                            <a th:href="@{/attendance/increaseHours(id=${attendance.id})}" class="hour-button">+</a>
+                            <a th:href="@{/attendance/decreaseHours(id=${attendance.id})}" class="hour-button">-</a>
+                        </div>
+                    </div>
+                </td>
                 <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
                 <td>
                     <div class="buttons-container">

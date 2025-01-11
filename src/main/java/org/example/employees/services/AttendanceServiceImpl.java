@@ -4,6 +4,7 @@ import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.repositories.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -103,5 +104,11 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
             attendanceRepository.save(attendance);
         });
+    }
+
+    @Override
+    public List<Attendance> getSortedAttendances(String sortBy, boolean descending) {
+        Sort sort = descending ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        return attendanceRepository.findAll(sort);
     }
 }

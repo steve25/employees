@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface AttendanceService {
     List<Attendance> getAllAttendances();
 
+    List<Attendance> getSortedAttendances(String sortBy, boolean descending);
+
     Optional<Attendance> getAttendanceById(Long id);
 
     void deleteAttendance(Long id);

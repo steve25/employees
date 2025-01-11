@@ -26,14 +26,21 @@ public class AttendanceController {
     }
 
     @GetMapping
-    public String getAllAttendances(Model model) {
-        List<Attendance> attendances = attendanceService.getAllAttendances();
+    public String getAllAttendances(
+        @RequestParam(name = "sortBy", required = false, defaultValue = "date") String sortBy,
+        @RequestParam(name = "order", required = false, defaultValue = "asc") String order,
+        Model model
+    ){
+        boolean descending = "desc".equalsIgnoreCase(order);
+        List<Attendance> attendances = attendanceService.getSortedAttendances(sortBy, descending);
         List<Employee> employees = employeeServiceImpl.getAllEmployees("lastName", "asc");
 
         model.addAttribute("pageTitle", "Home");
         model.addAttribute("contentFragment", "attendances");
         model.addAttribute("attendances", attendances);
         model.addAttribute("employees", employees);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("order", order);
 
         return "layout";
     }

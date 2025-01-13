@@ -104,4 +104,43 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendanceRepository.save(attendance);
         });
     }
+
+    //    @Override
+//    public List<Attendance> getAttendancesSortedByDate(String sortDirection) {
+//        if ("asc".equalsIgnoreCase(sortDirection)) {
+//            return attendanceRepository.findAllByOrderByDateAsc();
+//        } else {
+//            return attendanceRepository.findAllByOrderByDateDesc();
+//        }
+//    }
+    @Override
+    public List<Attendance> getAttendancesSorted(String sortBy, String sortDirection) {
+        if ("date".equalsIgnoreCase(sortBy)) {
+            if ("asc".equalsIgnoreCase(sortDirection)) {
+                return attendanceRepository.findAllByOrderByDateAsc();
+            } else {
+                return attendanceRepository.findAllByOrderByDateDesc();
+            }
+        } else if ("employeeLastName".equalsIgnoreCase(sortBy)) {
+            if ("asc".equalsIgnoreCase(sortDirection)) {
+                return attendanceRepository.findAllByOrderByEmployeeLastNameAsc();
+            } else {
+                return attendanceRepository.findAllByOrderByEmployeeLastNameDesc();
+            }
+        } else if ("workedHours".equalsIgnoreCase(sortBy)) {
+            if ("asc".equalsIgnoreCase(sortDirection)) {
+                return attendanceRepository.findAllByOrderByWorkedHoursAsc();
+            } else {
+                return attendanceRepository.findAllByOrderByWorkedHoursDesc();
+            }
+        } else if ("present".equalsIgnoreCase(sortBy)) {
+            if ("asc".equalsIgnoreCase(sortDirection)) {
+                return attendanceRepository.findAllByOrderByPresentAsc();
+            } else {
+                return attendanceRepository.findAllByOrderByPresentDesc();
+            }
+        }
+        return attendanceRepository.findAllByOrderByDateAsc();
+    }
 }
+

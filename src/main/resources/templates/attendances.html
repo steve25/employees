@@ -38,20 +38,20 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{/?sortBy=date&sortDirection=asc}" th:if="${sortBy == 'date' and sortDirection == 'desc'}">Date ↑</a>
-                    <a th:href="@{/?sortBy=date&sortDirection=desc}" th:if="${sortBy != 'date' or sortDirection == 'asc'}">Date ↓</a>
+                    <a th:href="@{/?sortBy=date&sortDirection=asc}" th:if="${sortBy == 'date' and sortDirection == 'desc'}">Date</a>
+                    <a th:href="@{/?sortBy=date&sortDirection=desc}" th:if="${sortBy != 'date' or sortDirection == 'asc'}">Date</a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=asc}" th:if="${sortBy == 'employeeLastName' and sortDirection == 'desc'}">Employee Last Name ↑</a>
-                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=desc}" th:if="${sortBy != 'employeeLastName' or sortDirection == 'asc'}">Employee Last Name ↓</a>
+                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=asc}" th:if="${sortBy == 'employeeLastName' and sortDirection == 'desc'}">Employee</a>
+                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=desc}" th:if="${sortBy != 'employeeLastName' or sortDirection == 'asc'}">Employee</a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=workedHours&sortDirection=asc}" th:if="${sortBy == 'workedHours' and sortDirection == 'desc'}">Worked Hours ↑</a>
-                    <a th:href="@{/?sortBy=workedHours&sortDirection=desc}" th:if="${sortBy != 'workedHours' or sortDirection == 'asc'}">Worked Hours ↓</a>
+                    <a th:href="@{/?sortBy=workedHours&sortDirection=asc}" th:if="${sortBy == 'workedHours' and sortDirection == 'desc'}">Worked Hours</a>
+                    <a th:href="@{/?sortBy=workedHours&sortDirection=desc}" th:if="${sortBy != 'workedHours' or sortDirection == 'asc'}">Worked Hours</a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=present&sortDirection=asc}" th:if="${sortBy == 'present' and sortDirection == 'desc'}">Present ↑</a>
-                    <a th:href="@{/?sortBy=present&sortDirection=desc}" th:if="${sortBy != 'present' or sortDirection == 'asc'}">Present ↓</a>
+                    <a th:href="@{/?sortBy=present&sortDirection=asc}" th:if="${sortBy == 'present' and sortDirection == 'desc'}">Present</a>
+                    <a th:href="@{/?sortBy=present&sortDirection=desc}" th:if="${sortBy != 'present' or sortDirection == 'asc'}">Present</a>
                 </th>
                 <th>Actions</th>
             </tr>

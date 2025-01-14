@@ -43,20 +43,6 @@ public class AttendanceController {
         return "layout";
     }
 
-//    @GetMapping
-//    public String getAllAttendances(@RequestParam(value = "sort", required = false, defaultValue = "asc") String sortDirection, Model model) {
-//        List<Attendance> attendances = attendanceService.getAttendancesSortedByDate(sortDirection);
-//        List<Employee> employees = employeeServiceImpl.getAllEmployees("lastName", "asc");
-//
-//        model.addAttribute("pageTitle", "Home");
-//        model.addAttribute("contentFragment", "attendances");
-//        model.addAttribute("attendances", attendances);
-//        model.addAttribute("employees", employees);
-//        model.addAttribute("sortDirection", sortDirection);
-//
-//        return "layout";
-//    }
-
     @GetMapping("/attendance/details")
     public String showAttendanceForm(@RequestParam Long id, Model model) {
         var attendanceOptional = attendanceService.getAttendanceById(id);

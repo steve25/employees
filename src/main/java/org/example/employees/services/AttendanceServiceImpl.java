@@ -4,6 +4,7 @@ import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.repositories.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -105,42 +106,20 @@ public class AttendanceServiceImpl implements AttendanceService {
         });
     }
 
-    //    @Override
-//    public List<Attendance> getAttendancesSortedByDate(String sortDirection) {
-//        if ("asc".equalsIgnoreCase(sortDirection)) {
-//            return attendanceRepository.findAllByOrderByDateAsc();
-//        } else {
-//            return attendanceRepository.findAllByOrderByDateDesc();
-//        }
-//    }
     @Override
     public List<Attendance> getAttendancesSorted(String sortBy, String sortDirection) {
-        if ("date".equalsIgnoreCase(sortBy)) {
-            if ("asc".equalsIgnoreCase(sortDirection)) {
-                return attendanceRepository.findAllByOrderByDateAsc();
-            } else {
-                return attendanceRepository.findAllByOrderByDateDesc();
-            }
-        } else if ("employeeLastName".equalsIgnoreCase(sortBy)) {
-            if ("asc".equalsIgnoreCase(sortDirection)) {
-                return attendanceRepository.findAllByOrderByEmployeeLastNameAsc();
-            } else {
-                return attendanceRepository.findAllByOrderByEmployeeLastNameDesc();
-            }
-        } else if ("workedHours".equalsIgnoreCase(sortBy)) {
-            if ("asc".equalsIgnoreCase(sortDirection)) {
-                return attendanceRepository.findAllByOrderByWorkedHoursAsc();
-            } else {
-                return attendanceRepository.findAllByOrderByWorkedHoursDesc();
-            }
-        } else if ("present".equalsIgnoreCase(sortBy)) {
-            if ("asc".equalsIgnoreCase(sortDirection)) {
-                return attendanceRepository.findAllByOrderByPresentAsc();
-            } else {
-                return attendanceRepository.findAllByOrderByPresentDesc();
-            }
-        }
-        return attendanceRepository.findAllByOrderByDateAsc();
+        String validatedSortBy = validateSortBy(sortBy);
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        return attendanceRepository.findAll(Sort.by(direction, validatedSortBy));
+    }
+
+    private String validateSortBy(String sortBy) {
+        return switch (sortBy != null ? sortBy.toLowerCase() : "") {
+            case "employeelastname" -> "employee.lastName";
+            case "workedhours" -> "workedHours";
+            case "present" -> "present";
+            default -> "date";
+        };
     }
 }
-

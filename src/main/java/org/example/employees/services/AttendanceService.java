@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface AttendanceService {
     List<Attendance> getAllAttendances();
 
-//    List<Attendance> getAttendancesSortedByDate(String sortDirection);
     List<Attendance> getAttendancesSorted(String sortBy, String sortDirection);
 
     Optional<Attendance> getAttendanceById(Long id);

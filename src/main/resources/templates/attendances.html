@@ -1,27 +1,23 @@
 <main th:fragment="content">
-    <h1>Attandances</h1>
+    <h1>Attendances</h1>
 
-    <button class="toggle-btn" id="toggle-add-form">
-        Add New Attendance
-    </button>
+    <button class="toggle-btn" id="toggle-add-form">Add New Attendance</button>
 
     <div class="add-form-container">
         <form th:action="@{/addAttendance}" method="post">
             <label for="employeeId">Employee</label>
-            <select name="employeeId">
+            <select name="employeeId" required>
                 <option value="">Select employee</option>
-                <option th:each="employee : ${employees}" th:value="${employee.id}"
-                        th:text="${employee.firstName} + ' ' + ${employee.lastName}"></option>
+                <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.firstName} + ' ' + ${employee.lastName}"></option>
             </select>
             <div class="input-container">
                 <div>
                     <label for="date">Date</label>
-                    <input type="date" name="date" id="date"
-                           th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                    <input type="date" name="date" id="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required/>
                 </div>
                 <div>
                     <label for="hours">Hours</label>
-                    <input type="number" name="workedHours" id="hours"/>
+                    <input type="number" name="workedHours" id="hours" required/>
                 </div>
             </div>
             <div class="buttons-container">
@@ -38,41 +34,45 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{/?sortBy=date&sortDirection=asc}" th:if="${sortBy == 'date' and sortDirection == 'desc'}">Date</a>
-                    <a th:href="@{/?sortBy=date&sortDirection=desc}" th:if="${sortBy != 'date' or sortDirection == 'asc'}">Date</a>
+                    <a th:href="@{|/?page=0&sortBy=date&sortDirection=${sortBy == 'date' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
+                        Date
+                    </a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=asc}" th:if="${sortBy == 'employeeLastName' and sortDirection == 'desc'}">Employee</a>
-                    <a th:href="@{/?sortBy=employeeLastName&sortDirection=desc}" th:if="${sortBy != 'employeeLastName' or sortDirection == 'asc'}">Employee</a>
+                    <a th:href="@{|/?page=0&sortBy=employeeLastName&sortDirection=${sortBy == 'employeeLastName' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
+                        Employee
+                    </a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=workedHours&sortDirection=asc}" th:if="${sortBy == 'workedHours' and sortDirection == 'desc'}">Worked Hours</a>
-                    <a th:href="@{/?sortBy=workedHours&sortDirection=desc}" th:if="${sortBy != 'workedHours' or sortDirection == 'asc'}">Worked Hours</a>
+                    <a th:href="@{|/?page=0&sortBy=workedHours&sortDirection=${sortBy == 'workedHours' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
+                        Worked Hours
+                    </a>
                 </th>
                 <th>
-                    <a th:href="@{/?sortBy=present&sortDirection=asc}" th:if="${sortBy == 'present' and sortDirection == 'desc'}">Present</a>
-                    <a th:href="@{/?sortBy=present&sortDirection=desc}" th:if="${sortBy != 'present' or sortDirection == 'asc'}">Present</a>
+                    <a th:href="@{|/?page=0&sortBy=present&sortDirection=${sortBy == 'present' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
+                        Present
+                    </a>
                 </th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="attendance : ${attendances}" th:object="${attendance}">
-                <td th:text="${{attendance.date}}"></td>
+                <td th:text="*{date}"></td>
                 <td th:text="*{employee.firstName} + ' ' + *{employee.lastName}"></td>
                 <td>
-                    <div class="hours">
-                        <span class="hour-text" id="hour-text" th:text="*{workedHours}"></span>
-                        <div class="hour-buttons-container">
+                    <div class="hours-container" style="display: flex; align-items: center; gap: 10px;">
+                        <span class="hours-value" th:text="*{workedHours}"></span>
+                        <div class="hour-buttons-container" style="display: flex; gap: 5px;">
                             <a th:href="@{/attendance/increaseHours(id=${attendance.id})}" class="hour-button">+</a>
                             <a th:href="@{/attendance/decreaseHours(id=${attendance.id})}" class="hour-button">-</a>
                         </div>
                     </div>
                 </td>
-                <td th:text="*{isPresent ? 'Yes' : 'No'}"></td>
+                <td th:text="*{present ? 'Yes' : 'No'}"></td>
                 <td>
                     <div class="buttons-container">
-                        <a th:href="*{id}">Details</a>
+                        <a th:href="@{/attendance/details(id=${attendance.id})}">Details</a>
                         <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a>
                         <button class="deleteButton" th:data-id="${attendance.id}" th:data-endpoint="@{/attendance}">Delete</button>
                     </div>
@@ -82,16 +82,19 @@
         </table>
     </div>
 
-    <div class="modal-overlay">
-        <div class="modal">
-            <h3>Are you sure you want to delete this item?</h3>
-            <div class="modal-actions buttons-container">
-                <form th:action="@{/}" method="post">
-                    <input type="hidden" name="id" />
-                    <button type="submit">Delete</button>
-                </form>
-                <button class="cancelButton">Cancel</button>
-            </div>
-        </div>
+    <div class="paginator" th:if="${totalPages > 1}">
+        <ul>
+            <li th:if="${page > 0}">
+                <a th:href="@{|/?page=${page - 1}&sortBy=${sortBy}&sortDirection=${sortDirection}|}">&lt;</a>
+            </li>
+            <li th:each="p : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{|/?page=${p}&sortBy=${sortBy}&sortDirection=${sortDirection}|}"
+                   th:text="${p + 1}"
+                   th:classappend="${p == page} ? 'active' : ''"></a>
+            </li>
+            <li th:if="${page < totalPages - 1}">
+                <a th:href="@{|/?page=${page + 1}&sortBy=${sortBy}&sortDirection=${sortDirection}|}">&gt;</a>
+            </li>
+        </ul>
     </div>
 </main>

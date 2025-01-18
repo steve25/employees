@@ -5,11 +5,11 @@ import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
 import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,18 +27,23 @@ public class AttendanceController {
 
     @GetMapping
     public String getAllAttendances(
-            @RequestParam(value = "sortBy", required = false, defaultValue = "date") String sortBy,
-            @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(required = false, defaultValue = "date") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam( required = false, defaultValue = "0") int page,
             Model model) {
-        List<Attendance> attendances = attendanceService.getAttendancesSorted(sortBy, sortDirection);
-        List<Employee> employees = employeeServiceImpl.getAllEmployees("lastName", "asc");
 
-        model.addAttribute("pageTitle", "Home");
-        model.addAttribute("contentFragment", "attendances");
-        model.addAttribute("attendances", attendances);
-        model.addAttribute("employees", employees);
+        int pageSize = 50;
+        Page<Attendance> attendancePage = attendanceService.getAttendancesSorted(sortBy, sortDirection, page, pageSize);
+
+        String nextSortDirection = sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
+
+        model.addAttribute("attendances", attendancePage.getContent());
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", attendancePage.getTotalPages());
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("nextSortDirection", nextSortDirection);
+        model.addAttribute("contentFragment", "attendances");
 
         return "layout";
     }
@@ -70,7 +75,6 @@ public class AttendanceController {
     }
 
     @PostMapping("/addAttendance")
-
     public String addAttendance(@RequestParam long employeeId, @ModelAttribute Attendance attendance, Model model) {
         boolean success = attendanceService.addAttendanceForEmployee(employeeId, attendance);
 
@@ -82,7 +86,6 @@ public class AttendanceController {
 
         return "redirect:/";
     }
-
 
     @PostMapping("/attendance/delete")
     public String deleteAttendance(@RequestParam Long id) {
@@ -97,7 +100,6 @@ public class AttendanceController {
         if (!success) {
             return "redirect:/error";
         }
-
 
         return "redirect:/";
     }
@@ -125,5 +127,4 @@ public class AttendanceController {
         attendanceService.updateWorkedHours(id, false);
         return "redirect:/";
     }
-
 }

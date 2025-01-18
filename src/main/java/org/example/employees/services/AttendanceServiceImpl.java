@@ -4,11 +4,12 @@ import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.repositories.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,18 +22,32 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceServiceImpl(AttendanceRepository attendanceRepository, EmployeeService employeeService) {
         this.attendanceRepository = attendanceRepository;
         this.employeeService = employeeService;
+    }
 
+    @Override
+    public Page<Attendance> getAttendancesSorted(String sortBy, String sortDirection, int page, int pageSize) {
+        String validatedSortBy = validateSortBy(sortBy);
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        return attendanceRepository.findAll(PageRequest.of(page, pageSize, Sort.by(direction, validatedSortBy)));
+    }
+
+    private String validateSortBy(String sortBy) {
+        return switch (sortBy != null ? sortBy.toLowerCase() : "") {
+            case "employeelastname" -> "employee.lastName";
+            case "workedhours" -> "workedHours";
+            case "present" -> "present";
+            default -> "date";
+        };
     }
 
     @Override
     public boolean addAttendanceForEmployee(long employeeId, Attendance attendance) {
-
         if (!attendance.getDate().equals(LocalDate.now())) {
             return false;
         }
 
         Optional<Employee> employeeOptional = employeeService.getEmployeeById(employeeId);
-
         if (employeeOptional.isEmpty()) {
             return false;
         }
@@ -48,15 +63,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public List<Attendance> getAllAttendances() {
-        return attendanceRepository.findAll();
-    }
-
-    @Override
     public Optional<Attendance> getAttendanceById(Long id) {
         return attendanceRepository.findById(id);
     }
 
+    @Override
     public void deleteAttendance(Long id) {
         if (attendanceRepository.existsById(id)) {
             attendanceRepository.deleteById(id);
@@ -70,20 +81,12 @@ public class AttendanceServiceImpl implements AttendanceService {
             return false;
         }
 
-        if (attendance.getDate().isAfter(LocalDate.now())) {
-            return false;
-        }
-
-        Optional<Attendance> existingAttendaceOptional = attendanceRepository.findById(attendanceId);
-        if (existingAttendaceOptional.isEmpty()) {
-            return false;
-        }
         Optional<Employee> existingEmployeeOptional = employeeService.getEmployeeById(employeeId);
         if (existingEmployeeOptional.isEmpty()) {
             return false;
         }
 
-        Attendance existingAttendance = existingAttendaceOptional.get();
+        Attendance existingAttendance = existingAttendanceOptional.get();
         existingAttendance.setDate(attendance.getDate());
         existingAttendance.setWorkedHours(attendance.getWorkedHours());
         existingAttendance.setPresent(attendance.isPresent());
@@ -104,22 +107,5 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
             attendanceRepository.save(attendance);
         });
-    }
-
-    @Override
-    public List<Attendance> getAttendancesSorted(String sortBy, String sortDirection) {
-        String validatedSortBy = validateSortBy(sortBy);
-        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
-
-        return attendanceRepository.findAll(Sort.by(direction, validatedSortBy));
-    }
-
-    private String validateSortBy(String sortBy) {
-        return switch (sortBy != null ? sortBy.toLowerCase() : "") {
-            case "employeelastname" -> "employee.lastName";
-            case "workedhours" -> "workedHours";
-            case "present" -> "present";
-            default -> "date";
-        };
     }
 }

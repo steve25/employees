@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,16 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceServiceImpl(AttendanceRepository attendanceRepository, EmployeeService employeeService) {
         this.attendanceRepository = attendanceRepository;
         this.employeeService = employeeService;
+    }
+
+    @Override
+    public List<Attendance> getAllAttendances() {
+        return attendanceRepository.findAll();
+    }
+
+    @Override
+    public List<Attendance> getAttendancesByDate(LocalDate date) {
+        return attendanceRepository.findByDate(date);
     }
 
     @Override
@@ -63,8 +74,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public Optional<Attendance> getAttendanceById(Long id) {
-        return attendanceRepository.findById(id);
+    public Optional<Attendance> getAttendanceByIdWithEmployee(Long id) {
+        return attendanceRepository.findByIdWithEmployee(id);
     }
 
     @Override
@@ -76,13 +87,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public boolean updateAttendance(Long attendanceId, Attendance attendance, Long employeeId) {
-        Optional<Attendance> existingAttendanceOptional = attendanceRepository.findById(attendanceId);
+        Optional<Attendance> existingAttendanceOptional = attendanceRepository.findByIdWithEmployee(attendanceId);
         if (existingAttendanceOptional.isEmpty()) {
             return false;
         }
 
-        Optional<Employee> existingEmployeeOptional = employeeService.getEmployeeById(employeeId);
-        if (existingEmployeeOptional.isEmpty()) {
+        Optional<Employee> employeeOptional = employeeService.getEmployeeById(employeeId);
+        if (employeeOptional.isEmpty()) {
+            return false;
+        }
+
+        Optional<Attendance> duplicateAttendance = attendanceRepository.findByEmployeeIdAndDate(employeeId, attendance.getDate());
+        if (duplicateAttendance.isPresent() && !duplicateAttendance.get().getId().equals(attendanceId)) {
             return false;
         }
 
@@ -90,7 +106,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         existingAttendance.setDate(attendance.getDate());
         existingAttendance.setWorkedHours(attendance.getWorkedHours());
         existingAttendance.setPresent(attendance.isPresent());
-        existingAttendance.setEmployee(existingEmployeeOptional.get());
+        existingAttendance.setEmployee(employeeOptional.get());
 
         attendanceRepository.save(existingAttendance);
         return true;

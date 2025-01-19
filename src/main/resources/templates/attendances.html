@@ -13,11 +13,11 @@
             <div class="input-container">
                 <div>
                     <label for="date">Date</label>
-                    <input type="date" name="date" id="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required/>
+                    <input type="date" name="date" id="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required />
                 </div>
                 <div>
                     <label for="hours">Hours</label>
-                    <input type="number" name="workedHours" id="hours" required/>
+                    <input type="number" name="workedHours" id="hours" required />
                 </div>
             </div>
             <div class="buttons-container">
@@ -34,24 +34,16 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{|/?page=0&sortBy=date&sortDirection=${sortBy == 'date' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
-                        Date
-                    </a>
+                    <a th:href="@{|/?page=0&sortBy=date&sortDirection=${sortBy == 'date' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">Date</a>
                 </th>
                 <th>
-                    <a th:href="@{|/?page=0&sortBy=employeeLastName&sortDirection=${sortBy == 'employeeLastName' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
-                        Employee
-                    </a>
+                    <a th:href="@{|/?page=0&sortBy=employeeLastName&sortDirection=${sortBy == 'employeeLastName' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">Employee</a>
                 </th>
                 <th>
-                    <a th:href="@{|/?page=0&sortBy=workedHours&sortDirection=${sortBy == 'workedHours' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
-                        Worked Hours
-                    </a>
+                    <a th:href="@{|/?page=0&sortBy=workedHours&sortDirection=${sortBy == 'workedHours' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">Worked Hours</a>
                 </th>
                 <th>
-                    <a th:href="@{|/?page=0&sortBy=present&sortDirection=${sortBy == 'present' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">
-                        Present
-                    </a>
+                    <a th:href="@{|/?page=0&sortBy=present&sortDirection=${sortBy == 'present' and sortDirection == 'asc' ? 'desc' : 'asc'}|}">Present</a>
                 </th>
                 <th>Actions</th>
             </tr>
@@ -74,10 +66,31 @@
                     <div class="buttons-container">
                         <a th:href="@{/attendance/details(id=${attendance.id})}">Details</a>
                         <a th:href="@{/attendance/edit(id=${attendance.id})}">Edit</a>
-                        <button class="deleteButton" th:data-id="${attendance.id}" th:data-endpoint="@{/attendance}">Delete</button>
+                        <form th:action="@{/attendance/delete}" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${attendance.id}">
+                            <button type="submit">Delete</button>
+                        </form>
                     </div>
                 </td>
             </tr>
+            <script>
+                document.querySelectorAll('.deleteButton').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        const id = button.getAttribute('data-id');
+                        const endpoint = button.getAttribute('data-endpoint');
+                        fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: `id=${id}`
+                        }).then(response => {
+                            if (response.ok) location.reload();
+                            else alert('Error deleting record.');
+                        });
+                    });
+                });
+            </script>
+
             </tbody>
         </table>
     </div>
@@ -88,9 +101,7 @@
                 <a th:href="@{|/?page=${page - 1}&sortBy=${sortBy}&sortDirection=${sortDirection}|}">&lt;</a>
             </li>
             <li th:each="p : ${#numbers.sequence(0, totalPages - 1)}">
-                <a th:href="@{|/?page=${p}&sortBy=${sortBy}&sortDirection=${sortDirection}|}"
-                   th:text="${p + 1}"
-                   th:classappend="${p == page} ? 'active' : ''"></a>
+                <a th:href="@{|/?page=${p}&sortBy=${sortBy}&sortDirection=${sortDirection}|}" th:text="${p + 1}" th:classappend="${p == page} ? 'active' : ''"></a>
             </li>
             <li th:if="${page < totalPages - 1}">
                 <a th:href="@{|/?page=${page + 1}&sortBy=${sortBy}&sortDirection=${sortDirection}|}">&gt;</a>

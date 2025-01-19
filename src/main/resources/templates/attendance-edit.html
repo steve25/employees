@@ -1,33 +1,30 @@
-<main th:fragment="content">
-    <h1 th:text="'Edit attandance for ' + ${attendance.employee.firstName} + ' ' + ${attendance.employee.lastName}"></h1>
+<form th:action="@{/attendance/update}" method="POST">
+    <input type="hidden" name="id" th:value="${attendance.id}">
 
-    <form th:action="@{/attendance/update}" method="POST">
-        <div class="edit-page-container">
-            <input type="hidden" name="id" th:value="${attendance.id}">
-            <div class="input-container">
-                <div class="input-inner-container">
-                    <label for="date">Date</label>
-                    <input
-                            type="date"
-                            name="date"
-                            id="date"
-                            th:value="${attendance.date}"
-                    />
-                </div>
-                <div class="input-inner-container">
-                    <label for="hours">Hours</label>
-                    <input type="number" name="workedHours" id="hours" th:value="${attendance.workedHours}"/>
-                </div>
+    <label for="employee">Employee</label>
+    <select id="employee" name="employeeId" required>
+        <option th:each="employee : ${employees}"
+                th:value="${employee.id}"
+                th:text="${employee.firstName} + ' ' + ${employee.lastName}"
+                th:selected="${employee.id == attendance.employee.id}">
+        </option>
+    </select>
 
-                <div class="input-inner-container">
-                    <label for="present">Present</label>
-                    <input type="checkbox" id="present" name="present" checked/>
-                </div>
-            </div>
-        </div>
-        <div class="buttons-container">
-            <button type="submit">Save</button>
-            <a th:href="*{'/'}">Cancel</a>
-        </div>
-    </form>
-</main>
+    <div>
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" th:value="${attendance.date}" required />
+    </div>
+    <div>
+        <label for="hours">Worked Hours</label>
+        <input type="number" name="workedHours" id="hours" th:value="${attendance.workedHours}" required />
+    </div>
+    <div>
+        <label for="present">Present</label>
+        <input type="checkbox" id="present" name="present" th:checked="${attendance.present}" />
+    </div>
+
+    <div class="buttons-container">
+        <button type="submit">Save</button>
+        <a th:href="@{/}">Cancel</a>
+    </div>
+</form>

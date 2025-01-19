@@ -1,8 +1,8 @@
 package org.example.employees.controllers;
 
 import org.example.employees.models.Attendance;
-import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
+import org.example.employees.services.EmployeeService;
 import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,11 +18,13 @@ public class AttendanceController {
 
     private final EmployeeServiceImpl employeeServiceImpl;
     private final AttendanceService attendanceService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public AttendanceController(EmployeeServiceImpl employeeServiceImpl, AttendanceService attendanceService) {
+    public AttendanceController(EmployeeServiceImpl employeeServiceImpl, AttendanceService attendanceService, EmployeeService employeeService) {
         this.employeeServiceImpl = employeeServiceImpl;
         this.attendanceService = attendanceService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping
@@ -45,32 +47,37 @@ public class AttendanceController {
         model.addAttribute("nextSortDirection", nextSortDirection);
         model.addAttribute("contentFragment", "attendances");
 
+        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+
         return "layout";
     }
 
     @GetMapping("/attendance/details")
     public String showAttendanceForm(@RequestParam Long id, Model model) {
-        var attendanceOptional = attendanceService.getAttendanceById(id);
+        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceByIdWithEmployee(id);
 
         if (attendanceOptional.isEmpty()) {
+            model.addAttribute("error", "Attendance record not found.");
             return "redirect:/error";
         }
 
-        model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
-        return "attendance-edit";
+        Attendance attendance = attendanceOptional.get();
+
+        model.addAttribute("attendance", attendance);
+        return "attendance-detail";
     }
 
     @GetMapping("/attendance/edit")
     public String showUpdateForm(@RequestParam Long id, Model model) {
-        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceById(id);
+        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceByIdWithEmployee(id);
 
         if (attendanceOptional.isEmpty()) {
             return "redirect:/error";
         }
 
-        model.addAttribute("attendance", attendanceOptional.get());
+        model.addAttribute("attendance", attendanceOptional.orElseThrow(() -> new RuntimeException("Attendance not found")));
         model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+        model.addAttribute("editMode", true);
         return "attendance-edit";
     }
 
@@ -95,6 +102,10 @@ public class AttendanceController {
 
     @PostMapping("/attendance/update")
     public String updateAttendance(@ModelAttribute Attendance attendance, @RequestParam Long employeeId) {
+
+        System.out.println("Updating Attendance ID: " + attendance.getId());
+        System.out.println("Employee ID: " + employeeId);
+
         boolean success = attendanceService.updateAttendance(attendance.getId(), attendance, employeeId);
 
         if (!success) {
@@ -106,7 +117,7 @@ public class AttendanceController {
 
     @GetMapping("/{id}")
     public String getAttendanceDetails(@PathVariable Long id, Model model) {
-        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceById(id);
+        Optional<Attendance> attendanceOptional = attendanceService.getAttendanceByIdWithEmployee(id);
 
         if (attendanceOptional.isEmpty()) {
             return "redirect:/error";
@@ -126,5 +137,10 @@ public class AttendanceController {
     public String decreaseWorkedHours(@RequestParam Long id) {
         attendanceService.updateWorkedHours(id, false);
         return "redirect:/";
+    }
+
+    @GetMapping("/favicon.ico")
+    @ResponseBody
+    public void returnNoFavicon() {
     }
 }

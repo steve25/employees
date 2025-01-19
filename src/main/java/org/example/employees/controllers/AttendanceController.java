@@ -58,7 +58,9 @@ public class AttendanceController {
 
         model.addAttribute("attendance", attendanceOptional.get());
         model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
-        return "attendance-edit";
+        model.addAttribute("contentFragment", "attendances-detail");
+
+        return "layout";
     }
 
     @GetMapping("/attendance/edit")
@@ -71,6 +73,8 @@ public class AttendanceController {
 
         model.addAttribute("attendance", attendanceOptional.get());
         model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+        model.addAttribute("contentFragment", "attendances-edit");
+
         return "attendance-edit";
     }
 

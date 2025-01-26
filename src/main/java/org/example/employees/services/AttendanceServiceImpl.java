@@ -75,22 +75,17 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public boolean updateAttendance(Long attendanceId, Attendance attendance, Long employeeId) {
-        Optional<Attendance> existingAttendanceOptional = attendanceRepository.findById(attendanceId);
+    public boolean updateAttendance(Attendance attendance) {
+        Optional<Attendance> existingAttendanceOptional = attendanceRepository.findById(attendance.getId());
         if (existingAttendanceOptional.isEmpty()) {
             return false;
         }
 
-        Optional<Employee> existingEmployeeOptional = employeeService.getEmployeeById(employeeId);
-        if (existingEmployeeOptional.isEmpty()) {
-            return false;
-        }
-
         Attendance existingAttendance = existingAttendanceOptional.get();
+
         existingAttendance.setDate(attendance.getDate());
         existingAttendance.setWorkedHours(attendance.getWorkedHours());
         existingAttendance.setPresent(attendance.isPresent());
-        existingAttendance.setEmployee(existingEmployeeOptional.get());
 
         attendanceRepository.save(existingAttendance);
         return true;

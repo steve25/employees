@@ -16,5 +16,5 @@ public interface AttendanceService {
 
     boolean addAttendanceForEmployee(long employeeId, Attendance attendance);
 
-    boolean updateAttendance(Long attendanceId, Attendance attendance, Long employeeId);
+    boolean updateAttendance(Attendance attendance);
 }

@@ -3,6 +3,7 @@ package org.example.employees.controllers;
 import org.example.employees.models.Attendance;
 import org.example.employees.models.Employee;
 import org.example.employees.services.AttendanceService;
+import org.example.employees.services.EmployeeService;
 import org.example.employees.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,12 +17,12 @@ import java.util.Optional;
 @RequestMapping("/")
 public class AttendanceController {
 
-    private final EmployeeServiceImpl employeeServiceImpl;
+    private final EmployeeService employeeService;
     private final AttendanceService attendanceService;
 
     @Autowired
-    public AttendanceController(EmployeeServiceImpl employeeServiceImpl, AttendanceService attendanceService) {
-        this.employeeServiceImpl = employeeServiceImpl;
+    public AttendanceController(EmployeeService employeeService, AttendanceService attendanceService) {
+        this.employeeService = employeeService;
         this.attendanceService = attendanceService;
     }
 
@@ -38,6 +39,7 @@ public class AttendanceController {
         String nextSortDirection = sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
 
         model.addAttribute("attendances", attendancePage.getContent());
+        model.addAttribute("employees", employeeService.getAllEmployees("lastName", "asc"));
         model.addAttribute("page", page);
         model.addAttribute("totalPages", attendancePage.getTotalPages());
         model.addAttribute("sortBy", sortBy);
@@ -57,7 +59,7 @@ public class AttendanceController {
         }
 
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+        model.addAttribute("employees", employeeService.getAllEmployees("lastName", "asc"));
         model.addAttribute("contentFragment", "attendance-detail");
 
         return "layout";
@@ -72,7 +74,7 @@ public class AttendanceController {
         }
 
         model.addAttribute("attendance", attendanceOptional.get());
-        model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+        model.addAttribute("employees", employeeService.getAllEmployees("lastName", "asc"));
         model.addAttribute("contentFragment", "attendance-edit");
 
         return "layout";
@@ -84,7 +86,7 @@ public class AttendanceController {
 
         if (!success) {
             model.addAttribute("error", "A record for this day already exists.");
-            model.addAttribute("employees", employeeServiceImpl.getAllEmployees("lastName", "asc"));
+            model.addAttribute("employees", employeeService.getAllEmployees("lastName", "asc"));
             return "redirect:/error";
         }
 
@@ -98,8 +100,8 @@ public class AttendanceController {
     }
 
     @PostMapping("/attendance/update")
-    public String updateAttendance(@ModelAttribute Attendance attendance, @RequestParam Long employeeId) {
-        boolean success = attendanceService.updateAttendance(attendance.getId(), attendance, employeeId);
+    public String updateAttendance(@ModelAttribute Attendance attendance) {
+        boolean success = attendanceService.updateAttendance(attendance);
 
         if (!success) {
             return "redirect:/error";

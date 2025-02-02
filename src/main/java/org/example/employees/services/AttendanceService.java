@@ -17,4 +17,7 @@ public interface AttendanceService {
     boolean addAttendanceForEmployee(long employeeId, Attendance attendance);
 
     boolean updateAttendance(Attendance attendance);
+
+    Page<Attendance> searchAttendanceByEmployeeName(String name, String sortBy, String sortDirection, int page, int pageSize);
+
 }

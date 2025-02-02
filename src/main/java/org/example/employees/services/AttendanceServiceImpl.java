@@ -6,6 +6,7 @@ import org.example.employees.repositories.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -103,4 +104,14 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendanceRepository.save(attendance);
         });
     }
+
+    @Override
+    public Page<Attendance> searchAttendanceByEmployeeName(String name, String sortBy, String sortDirection, int page, int pageSize) {
+        String validatedSortBy = validateSortBy(sortBy);
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(direction, validatedSortBy));
+        return attendanceRepository.findByEmployeeNameContainingIgnoreCase(name, pageable);
+    }
+
 }

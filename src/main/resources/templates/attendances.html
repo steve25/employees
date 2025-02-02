@@ -27,6 +27,19 @@
         </form>
     </div>
 
+    <form th:action="@{/}" method="get">
+        <div class="search-container">
+            <label for="search-input">Search by employee name:</label>
+            <div class="input-wrapper">
+                <input type="text" name="searchQuery" id="search-input"
+                       th:value="${searchQuery != null and searchQuery != '' ? searchQuery : ''}"
+                       placeholder="Enter employee name"/>
+                <button type="submit">Search</button>
+                <a th:href="@{/}">Clear</a>
+            </div>
+        </div>
+    </form>
+
     <p class="info" th:unless="${attendances.size()}">No attendances in our system.</p>
 
     <div class="table-wrapper">

@@ -31,10 +31,18 @@ public class AttendanceController {
             @RequestParam(required = false, defaultValue = "date") String sortBy,
             @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             @RequestParam( required = false, defaultValue = "0") int page,
+            @RequestParam(required = false) String searchQuery,
             Model model) {
 
         int pageSize = 50;
-        Page<Attendance> attendancePage = attendanceService.getAttendancesSorted(sortBy, sortDirection, page, pageSize);
+        Page<Attendance> attendancePage;
+
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            model.addAttribute("searchQuery", searchQuery.trim());
+            attendancePage = attendanceService.searchAttendanceByEmployeeName(searchQuery.trim(), sortBy, sortDirection, page, pageSize);
+        } else {
+            attendancePage = attendanceService.getAttendancesSorted(sortBy, sortDirection, page, pageSize);
+        }
 
         String nextSortDirection = sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc";
 
